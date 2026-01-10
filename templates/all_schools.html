@@ -1,0 +1,28 @@
+
+<!--Файл .html-->
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center text-primary my-4">Школы на сайте</h1>
+    <ul class="list-group list-group-flush mb-5">
+    </ul>
+    <div class="text-center">
+            <a href="{{ url_for('gimn1nsk') }}" class="btn btn-blue mb-1">Гимназия 1 (Первая гимназия)</a>
+            <a  class="btn btn-blue mb-1">Гимназия 13</a>
+            <a class="btn btn-blue mb-1">Новосибирский экономический лицей</a>
+            <a href="{{ url_for('nslic220nsk') }}" class="btn btn-blue mb-1">Лицей 22 «Надежда Сибири»</a>
+            <a href="{{ url_for('Asch_nskob_nsk_cent_lic12') }}" class="btn btn-blue mb-1">Лицей 12</a>
+            <a class="btn btn-blue mb-1">Средняя школа 29(МБОУ СОШ №29)</a>
+            <a class="btn btn-blue mb-1">Средняя школа 54(МБОУ СОШ №54)</a>
+            <a class="btn btn-blue mb-1">Средняя школа 4(МБОУ СОШ №4)</a>
+            <a href="{{ url_for('sch_nskob_nsk_dzer_sch2') }}" class="btn btn-blue mb-1">Школа 2</a>
+            <a href="{{ url_for('sch_nskob_nsk_dzer_sch1') }}" class="btn btn-blue mb-1">Школа 1</a>
+            <a class="btn btn-blue mb-3">Средняя школа 156(МБОУ СОШ №156)</a>
+
+    </div>
+    </div>
+    <div class="text-right">
+        <a href="{{ url_for('domoi') }}" class="">На главную</a>
+    </div>
+
+{% endblock %}

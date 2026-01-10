@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Школы - рядом!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 130px; /* Под нижний фиксированный футер */
+        }
+        h3 {
+            color: #4C4F54;
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        /* Эффект подчеркивания заголовков */
+        h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #0062cc, #00a8e8);
+            border-radius: 2px;
+        }
+
+        /* Стиль кнопок (синий) */
+        .btn-blue, .btn-gray {
+            display: inline-block;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 98, 204, 0.3);
+            border: none;
+            color: white;
+            background: linear-gradient(135deg, #0062cc, #004a99);
+        }
+        .btn-blue:hover, .btn-gray:hover {
+            background: linear-gradient(135deg, #004a99, #003366);
+            box-shadow: 0 6px 16px rgba(0, 74, 153, 0.6);
+            transform: translateY(-1px);
+            text-decoration: none;
+            color: white;
+        }
+        .btn-gray {
+            background: #6c757d;
+            color: white;
+            box-shadow: 0 4px 12px rgba(108,117,125,0.3);
+        }
+
+        /* Панель с границей и тень при hover, как у гимназии */
+        .border-panel {
+            border: 1px solid #0062cc;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 1rem;
+        }
+        .border-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 98, 204, 0.18);
+        }
+
+        /* Правый сайдбар */
+        aside {
+            margin-top: 2rem;
+        }
+
+        /* Футер внизу */
+        .footer {
+            margin-top: auto;
+            padding: 1.2rem 0;
+            text-align: center;
+            background-color: #cce4fb;
+            color: #003366;
+            border-top: 1px solid #0055aa;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1100;
+            box-shadow: 0 -1px 8px rgba(0, 85, 170, 0.3);
+            font-size: 0.9rem;
+            height: auto;
+            line-height: 1.4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+            border-radius: 12px 12px 0 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        .footer a {
+            color: #003366;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        .footer a:hover {
+            color: #001f44;
+            transform: scale(1.05);
+        }
+
+        /* Контейнер кнопок районов — с фиксированной шириной и правым выравниванием */
+        .buttons-wrapper {
+            max-width: 300px;
+            margin-left: auto; /* выравнивание вправо */
+        }
+
+        /* Контейнер кнопки "Вернуться на главную" — совпадает по ширине и выравниванию с .buttons-wrapper */
+        .back-to-main-btn-wrapper {
+            max-width: 300px;
+            margin-left: auto; /* выравнивание вправо */
+            margin-top: 1.2rem; /* отступ сверху от списка кнопок районов */
+        }
+
+        .back-to-main-btn-wrapper button {
+            background: linear-gradient(135deg, #0062cc, #004a99);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 98, 204, 0.3);
+            min-width: 130px;
+            text-align: center;
+            user-select: none;
+            width: 100%; /* растянуть кнопку по ширине контейнера */
+        }
+
+        .back-to-main-btn-wrapper button:hover {
+            background: linear-gradient(135deg, #004a99, #003366);
+            box-shadow: 0 6px 16px rgba(0, 74, 153, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .back-to-main-btn-wrapper button:focus {
+            outline: none;
+            box-shadow: 0 0 8px 2px rgba(0, 98, 204, 0.7);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <main class="col-md-8">
+                {% block content %}
+
+                {% endblock %}
+            </main>
+            <aside class="col-md-4">
+                <div class="text-center mb-3">
+                    <a href="{{ url_for('search') }}" class="btn btn-blue">Поиск на сайте</a>
+                </div>
+                <div class="text-center mb-3">
+                    <a href="{{ url_for('all_schools') }}" class="btn btn-blue">Все школы</a>
+                </div>
+                <div class="border-panel mb-3">
+                    <h3 class="text-center">Дополнительно</h3>
+                    <ul>
+                        <li>Поделиться проектом с друзьями и знакомыми.</li>
+                        <li>
+                            <a href="{{ url_for('support_author') }}" class="btn btn-gray mt-2">Перейти на страницу поддержки автора проекта</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="border-panel">
+                    <h3 class="text-center">Вопросы</h3>
+                    <p class="text-center">Если у вас возникли вопросы, или предложения по развитию нашего проекта, смело пишите <a href="{{ url_for('support') }}" class="text-decoration-none">нам</a>.</p>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('Информация_о_сайте') }}" class="btn btn-gray">О сайте</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div>
+            <a href="{{ url_for('support_author') }}">Поддержите наш проект!</a>
+            <span style="margin: 0 10px;">|</span>
+            <a href="{{ url_for('Политика_Конфиденциальности') }}">Политика Конфиденциальности</a>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        const btnBar = document.getElementById('fixedButtonBar');
+        const policyPanel = document.getElementById('policyPanel');
+
+        function isScrolledToBottom(tolerancePx = 10) {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            return scrollTop + windowHeight >= docHeight - tolerancePx;
+        }
+
+        function updatePanels() {
+            if (policyPanel && btnBar) {
+                if (isScrolledToBottom()) {
+                    if (!policyPanel.classList.contains('visible')) {
+                        policyPanel.classList.add('visible');
+                        policyPanel.style.opacity = '1';
+                        policyPanel.style.pointerEvents = 'auto';
+                    }
+                    const policyHeight = policyPanel.offsetHeight;
+                    btnBar.style.bottom = (policyHeight + 20) + 'px'; // кнопки выше панели политики
+                } else {
+                    if (policyPanel.classList.contains('visible')) {
+                        policyPanel.classList.remove('visible');
+                        policyPanel.style.opacity = '0';
+                        policyPanel.style.pointerEvents = 'none';
+                    }
+                    btnBar.style.bottom = '20px'; // кнопки внизу страницы
+                }
+            }
+        }
+
+        window.addEventListener('scroll', updatePanels, { passive: true });
+        window.addEventListener('resize', updatePanels);
+        window.addEventListener('load', updatePanels);
+    })();
+    </script>
+</body>
+</html>

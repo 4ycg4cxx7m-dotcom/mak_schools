@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Мы ответим на ваш вопрос, для этого напишите нам</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #4a90e2, #6699cc);
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            display: flex;
+            justify-content: center; /* центр по горизонтали */
+            align-items: flex-start; /* вертикально сверху */
+
+            padding-top: 10vh; /* отступ сверху */
+            box-sizing: border-box;
+        }
+
+        .intro-container {
+            background: linear-gradient(135deg, #0069d9, #004085);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 64, 128, 0.4);
+            text-align: center;
+            width: 60vw;
+            max-width: 700px;
+            height: auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .intro-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .intro-container h3,
+        .intro-container h4 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .btn-custom {
+            background-color: #3399ff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(51,153,255,0.6);
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+        .btn-custom:hover {
+            background-color: #2673cc;
+            box-shadow: 0 6px 20px rgba(38,115,204,0.8);
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-container">
+        <h1>Поддержите развитие нашего проекта!</h1>
+        <h3>Надеюсь, эта платформа будет вам полезна и поможет вам в ваших рутинных задачах.</h3>
+        <h4>Можете поддержать развитие нашего проекта, перевести деньги на карту (номер карты) банка (название банка).</h4>
+        <a href="{{ url_for('home') }}" class="btn-custom">Вернуться на главный экран</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Школы рядом!{% endblock %}</title>
+    
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #0062cc, #004a99);
+            --primary-dark: linear-gradient(135deg, #004a99, #003366);
+            --primary-light: linear-gradient(90deg, #0062cc, #00a8e8);
+            --bg-color: #f0f4f8;
+            --panel-bg: #fff;
+            --border-color: #0062cc;
+            --text-dark: #4C4F54;
+            --footer-bg: #cce4fb;
+            --footer-text: #003366;
+            --footer-border: #0055aa;
+            --shadow-blue: 0 4px 12px rgba(0, 98, 204, 0.3);
+            --shadow-blue-hover: 0 6px 16px rgba(0, 74, 153, 0.6);
+            --shadow-panel: 0 12px 32px rgba(0, 98, 204, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', 'Arial', sans-serif;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding-bottom: 140px;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4rem;
+            min-height: 80vh;
+        }
+
+        .two-column-layout {
+            width: 100%;
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: flex-start;
+        }
+
+        .left-column {
+            flex: 0 0 70%;
+            max-width: 70%;
+        }
+
+        .right-column {
+            flex: 0 0 28%;
+            max-width: 28%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .border-panel {
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            background-color: var(--panel-bg);
+            border-radius: 16px;
+            box-shadow: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .border-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .media-block {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            background-color: var(--panel-bg);
+            height: clamp(300px, 35vh, 400px);
+            flex-shrink: 0;
+        }
+
+        .media-block:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .school-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            loading: lazy;
+            decoding: async;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1rem 1.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .address-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            height: 100%;
+        }
+
+        .address-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .btn-map {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-map:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-blue-hover);
+            color: white;
+            text-decoration: none;
+        }
+
+        .title-with-spacing {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 3rem !important;
+            letter-spacing: -0.02em;
+            text-align: center;
+            color: #333;
+        }
+
+        h3 {
+            color: var(--text-dark);
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+
+/* ✅ КНОПКИ ЧУТЬ ПОШИРЕ (минимальное изменение) */
+.fixed-button-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.2rem; /* +0.2rem */
+    z-index: 1050;
+    transition: all 0.3s ease;
+    width: 85%; /* Было 100%, теперь 85% */
+    max-width: 420px; /* Было ~400px, теперь 420px */
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* ✅ КНОПКИ ЧУТЬ ПОШИРЕ И МЕНЬШЕ В ВЫСОТУ */
+.fixed-button-bar button {
+    flex: 1;
+    padding: 0.9rem 1.7rem; /* Меньше padding по высоте: 0.9rem вместо 1.1rem */
+    font-weight: 600;
+    font-size: 0.92rem;
+    border-radius: 12px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-blue);
+    border: none;
+    color: white;
+    background: var(--primary-gradient);
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.3; /* Компактная высота строк */
+}
+
+
+.fixed-button-bar button:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-blue-hover);
+    transform: translateY(-1px);
+}
+
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2rem 0;
+            text-align: center;
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            border-top: 1px solid var(--footer-border);
+            z-index: 1100;
+            box-shadow: 0 -1px 8px rgba(0, 85, 170, 0.3);
+            font-size: 0.9rem;
+            height: auto;
+            line-height: 1.4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            border-radius: 12px 12px 0 0;
+            box-sizing: border-box;
+        }
+
+        .footer.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .footer a {
+            color: var(--footer-text);
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #001f44;
+            transform: scale(1.05);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .main-container { width: 98%; }
+        }
+
+        @media (max-width: 992px) {
+            .two-column-layout {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .left-column, .right-column {
+                flex: none;
+                max-width: 100%;
+            }
+            .border-panel { 
+                margin: 1rem 0; 
+                padding: 1.5rem; 
+            }
+            .media-block { 
+                height: clamp(280px, 30vh, 350px); 
+            }
+            .fixed-button-bar { 
+                flex-direction: column;
+                width: 90%;
+                max-width: 320px;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-bottom: 160px; }
+            .content-wrapper { padding-top: 2rem; }
+            .title-with-spacing { margin-bottom: 2rem; }
+            .media-block { height: clamp(250px, 28vh, 300px); }
+            .addresses-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 576px) {
+            .media-block { height: clamp(220px, 25vh, 280px); }
+            .fixed-button-bar button { padding: 1rem; }
+            .border-panel { padding: 1.25rem; }
+        }
+
+        /* iOS Safe Areas */
+        @supports (padding: max(0px)) {
+            body {
+                padding-bottom: max(140px, env(safe-area-inset-bottom));
+            }
+            .fixed-button-bar {
+                bottom: max(20px, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+
+    <footer class="footer" id="policyPanel">
+        <div>
+            <a href="{{ url_for('support_author') }}">Поддержите наш проект!</a>
+            <span style="margin: 0 10px;">|</span>
+            <a href="{{ url_for('Политика_Конфиденциальности') }}">Политика Конфиденциальности</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            
+            const btnBar = document.getElementById('fixedButtonBar');
+            const policyPanel = document.getElementById('policyPanel');
+
+            function isScrolledToBottom(tolerancePx = 10) {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const windowHeight = window.innerHeight;
+                const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+                return scrollTop + windowHeight >= docHeight - tolerancePx;
+            }
+
+            const debouncedUpdate = debounce(updatePanels, 16);
+
+            function updatePanels() {
+                if (isScrolledToBottom()) {
+                    policyPanel.classList.add('visible');
+                    const policyHeight = policyPanel.offsetHeight;
+                    if (btnBar) btnBar.style.bottom = (policyHeight + 20) + 'px';
+                } else {
+                    policyPanel.classList.remove('visible');
+                    if (btnBar) btnBar.style.bottom = '20px';
+                }
+            }
+
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            window.addEventListener('scroll', debouncedUpdate, { passive: true });
+            window.addEventListener('resize', debouncedUpdate);
+            window.addEventListener('load', updatePanels);
+        })();
+    </script>
+</body>
+</html>

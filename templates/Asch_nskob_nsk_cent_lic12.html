@@ -1,0 +1,34 @@
+{% extends "base_sch.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 content-block">
+            <h2 class="text-center">Лицей №12</h2>
+            <br />
+            <div class="border-panel">
+                <h3>Об образовательной организации:</h3>
+                <p>
+                    Лицей №12 — одна из старейших и престижных школ города Новосибирска, основанная в 1912 году. Основной корпус лицея находится по адресу: <strong>г. Новосибирск, ул. Серебренниковская, 10</strong>.
+                </p>
+                <p>
+                    Образовательный процесс направлен на углубленное изучение естественно-научных и математических дисциплин с целью подготовки высококвалифицированных специалистов. В лицее активно применяются инновационные методики обучения и обеспечивается тесное взаимодействие с вузами региона.
+                </p>
+                <p>
+                    Педагогический коллектив состоит из опытных преподавателей, среди которых есть заслуженные учителя и победители профессиональных конкурсов. Лицей широко участвует в научных и культурных мероприятиях, способствуя развитию творческого и интеллектуального потенциала учащихся.
+                </p>
+                <p><strong>Контактные адреса и данные:</strong></p>
+                <p><strong>Основной корпус: </strong>г. Новосибирск, ул. Серебренниковская, 10</p>
+                <p><strong>Ссылка в 2ГИС: </strong><a href="https://go.2gis.com/example12" target="_blank" rel="noopener noreferrer">https://go.2gis.com/example12</a></p>
+                <p><strong>Телефон и электронная почта:</strong> уточняйте на официальном сайте лицея</p>
+                <p><strong>Сайт:</strong> <a href="https://s-12.edusite.ru/" target="_blank" rel="noopener noreferrer">https://s-12.edusite.ru/</a></p>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+<div class="fixed-button-bar" id="fixedButtonBar">
+    <button onclick="location.href='{{ url_for('sch_nskob_nsk_cent') }}'">Вернуться на предыдущую страницу</button>
+    <button onclick="location.href='{{ url_for('domoi') }}'">Вернуться на главную</button>
+</div>
+{% endblock %}

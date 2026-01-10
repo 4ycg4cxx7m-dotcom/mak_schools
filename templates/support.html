@@ -1,0 +1,85 @@
+<!--Файл support.html-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Техподдержка</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #4a90e2, #6699cc);
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .support-container {
+            background: linear-gradient(135deg, #0069d9, #004085);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 64, 128, 0.4);
+            text-align: center;
+            width: 60vw;
+            max-width: 700px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .support-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+        .support-container h2 {
+            font-weight: 600;
+            margin: 1rem 0;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .support-container h3 {
+            font-weight: 600;
+            margin-top: 1.5rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .support-container h4 {
+            font-weight: 500;
+            margin-top: 1rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .btn-custom {
+            background-color: #3399ff;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(51,153,255,0.6);
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+        .btn-custom:hover {
+            background-color: #2673cc;
+            box-shadow: 0 6px 20px rgba(38,115,204,0.8);
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="support-container">
+        <h1>Пишите нам в любое время!</h1>
+        <h2>Если у вас есть предложения по развитию проекта или вопросы, мы будем рады вас слышать!</h2>
+        <h2></h2>
+        <h2>Вы можете:</h2>
+        <p>Отправить сообщение на электронную почту: (адрес эл.почты)]</p>
+        <p>Или направить свой вопрос в мессенджер Telegram на ник (ник в телеграмме).</p>
+        <h3>Мы обязательно вам ответим!</h3>
+        <a href="{{ url_for('home') }}" class="btn-custom">Вернуться на главный экран</a>
+    </div>
+</body>
+</html>

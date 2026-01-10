@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Школы центрального района - Новосибирск</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0062cc;
+            --primary-dark: #004a99;
+            --primary-light: #00a8e8;
+            --bg: #f0f4f8;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: 0 8px 32px rgba(0, 98, 204, 0.15);
+            --shadow-hover: 0 12px 40px rgba(0, 98, 204, 0.25);
+            --border: #e1e8ed;
+            --panel-bg: #f8fafc;
+            --panel-header: #e3f2fd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Контейнер */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1rem 140px 1rem;
+        }
+
+        /* ЛЕВАЯ КНОПКА ПАНЕЛИ */
+        .toggle-panel-btn {
+            position: fixed;
+            top: 20px;
+            left: 25px;
+            z-index: 2000;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .toggle-panel-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .toggle-panel-btn:hover {
+            transform: scale(1.05) rotate(90deg);
+            box-shadow: 0 16px 48px rgba(0,98,204,0.4);
+        }
+
+        /* УДОБНАЯ БОКОВАЯ ПАНЕЛЬ */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--panel-bg);
+            border-radius: 0 20px 20px 0;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            z-index: 1500;
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
+
+        .side-panel.active {
+            left: 0;
+        }
+
+        .panel-header {
+            padding: 1.8rem;
+            background: var(--panel-header);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .panel-section {
+            padding: 0 1.8rem 1.8rem;
+        }
+
+        .panel-section h4 {
+            margin: 1.5rem 0 1rem 0;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ЗАГОЛОВОК */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            text-align: center;
+            margin: 3rem 0 2rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        /* ВСЕ ШКОЛЫ В ДВЕ КОЛОНКИ ПОД ДРУГ ДРУГОМ */
+        .schools-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+        }
+
+        .schools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .school-btn {
+            display: block;
+            padding: 1.8rem 1.8rem;
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .school-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,98,204,0.08), transparent);
+            transition: left 0.5s;
+        }
+
+        .school-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+            color: var(--text-dark);
+        }
+
+        .school-btn:hover::before {
+            left: 100%;
+        }
+
+        .school-btn i {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 0.6rem;
+        }
+
+        /* КАРТА ПОД ШКОЛАМИ */
+        .map-section {
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+        }
+
+        .map-wrapper {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .map-wrapper h4 {
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 420px;
+            border: none;
+            border-radius: 12px;
+        }
+
+        /* Кнопки панели */
+        .panel-btn {
+            display: block;
+            width: 100%;
+            padding: 1.1rem 1.4rem;
+            margin-bottom: 0.8rem;
+            background: var(--white);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+        }
+
+        .panel-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0,98,204,0.2);
+        }
+
+        .support-btn {
+            border-color: #dee2e6;
+            color: #6c757d;
+        }
+
+        .support-btn:hover {
+            background: #6c757d;
+            color: white;
+            border-color: #6c757d;
+        }
+
+        /* Фиксированные кнопки */
+        .fixed-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            background: var(--white);
+            padding: 1rem 1.8rem;
+            border-radius: 25px;
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--border);
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.7rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,98,204,0.4);
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 992px) {
+            .schools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toggle-panel-btn {
+                top: 15px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .side-panel {
+                width: 100%;
+                left: -100%;
+            }
+            
+            .container {
+                padding: 1rem;
+                padding-bottom: 160px;
+            }
+            
+            .page-title {
+                font-size: 2.2rem;
+            }
+            
+            .fixed-nav {
+                flex-direction: column;
+                width: 90%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ЛЕВАЯ КНОПКА -->
+    <button class="toggle-panel-btn" id="togglePanel" title="Меню">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- ПАНЕЛЬ С НОВОЙ КНОПКОЙ SUPPORT -->
+    <div class="side-panel" id="sidePanel">
+        <div class="panel-header">
+            <h3>
+                <i class="fas fa-th me-2"></i>Навигация
+            </h3>
+        </div>
+        
+        <div class="panel-section">
+            <h4><i class="fas fa-search me-2"></i>Поиск</h4>
+            <a href="{{ url_for('search') }}" class="panel-btn">
+                <i class="fas fa-search me-3"></i>Поиск на сайте
+            </a>
+            <a href="{{ url_for('all_schools') }}" class="panel-btn">
+                <i class="fas fa-list me-3"></i>Все школы
+            </a>
+            <a href="{{ url_for('support') }}" class="panel-btn">
+                <i class="fas fa-life-ring me-3"></i>Поддержка
+            </a>
+        </div>
+        
+        <div class="panel-section">
+            <h4><i class="fas fa-heart me-2"></i>Поддержка</h4>
+            <a href="{{ url_for('support_author') }}" class="panel-btn support-btn">
+                <i class="fas fa-heart me-3"></i>Поддержать проект
+            </a>
+            <a href="{{ url_for('Информация_о_сайте') }}" class="panel-btn support-btn">
+                <i class="fas fa-info-circle me-3"></i>О сайте
+            </a>
+        </div>
+        
+        <div class="panel-section">
+            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn" style="font-size: 0.92rem;">
+                <i class="fas fa-shield-alt me-3"></i>Политика конфиденциальности
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ЗАГОЛОВОК -->
+        <div class="page-header">
+            <h1 class="page-title">Центральный район Новосибирска</h1>
+        </div>
+        
+        <!-- ВСЕ ШКОЛЫ В ДВЕ КОЛОНКИ ПОД ДРУГ ДРУГОМ -->
+        <div class="schools-wrapper">
+            <h2 class="section-title">Школы района</h2>
+            <div class="schools-grid">
+                <a href="{{ url_for('gimn1nsk') }}" class="school-btn">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>Гимназия 1<br><small>(Первая гимназия)</small></div>
+                </a>
+                <a href="{{ url_for('nslic220nsk') }}" class="school-btn">
+                    <i class="fas fa-graduation-cap"></i>
+                    Лицей 22 «Надежда Сибири»
+                </a>
+                <a href="#" class="school-btn">
+                    <i class="fas fa-graduation-cap"></i>
+                    Гимназия 13
+                </a>
+                <a href="{{ url_for('Asch_nskob_nsk_cent_lic12') }}" class="school-btn">
+                    <i class="fas fa-graduation-cap"></i>
+                    Лицей 12
+                </a>
+                <a href="#" class="school-btn">
+                    <i class="fas fa-graduation-cap"></i>
+                    Экономический лицей
+                </a>
+                <a href="{{ url_for('Asch_nskob_nsk_cent_sch29') }}" class="school-btn">
+                    <i class="fas fa-school"></i>
+                    Школа №29
+                </a>
+                <a href="{{ url_for('Asch_nskob_nsk_cent_sch54') }}" class="school-btn">
+                    <i class="fas fa-school"></i>
+                    Школа №54
+                </a>
+                <a href="{{ url_for('Asch_nskob_nsk_cent_sch4') }}" class="school-btn">
+                    <i class="fas fa-school"></i>
+                    Школа №4
+                </a>
+                <a href="{{ url_for('Asch_nskob_nsk_cent_sch156') }}" class="school-btn">
+                    <i class="fas fa-school"></i>
+                    Школа №156
+                </a>
+            </div>
+        </div>
+
+        <!-- КАРТА ПОД ШКОЛАМИ -->
+        <div class="map-section">
+            <div class="map-wrapper">
+                <h4><i class="fas fa-map-marker-alt me-2"></i>Центральный район</h4>
+                <iframe src="https://makemap.2gis.ru/widget?data=eJy9V99T4kgQ_l9yj1LeTM9vqnygwh26Rpa4Xu1xlg9IYowioUIAWcv_fTtkZljXdW-pkoUHii89Pf3N193TeQqKMknLNOmlxUNalXk6D9qXT0G1nqVBO_g7HVWLMg1awawsZmlZbZ4_BUk6H5f5rMqLKVrh43lVFvdpWEyKEoE_rhUIEB7_nCfVbdAG9__jbDTOq3XQpq3gJp9M_LpUjbUkQYN6K3IoWsGXk2mSPgZt9twKsibYdR2KjXRQTNYZRtMKxgVSyqejakPl8lLDoeGMUGgJcUgEp9xctSwKpgGZNNyDaGNRpoRHFacNSqTyoKHMgoJtTY2QFgXQDhVCCocK5lApTINyoZX0tgBgUbndTTHe-GWKaLebIJxZVDKPcqNZ45dhvJ6vYY1bhrt5UGntUE68A8EUvHaAe3CHMnAoSLCbgdl6AKKNRbXxtoRSa0u0dofDjLUkRkuPgaOAkblDYFp6WyrBo8zFRajwILWSgeHUmxqlLKoVOB0wGKskUKW4RxXTG5Sarb6McqkaVGljvK0hTWAUNbMgENnsRfDonFeqpbKWmJQuAmBUN3Qxar1FMYMaVEpqPCopt6iR3KPM5h3VmFduN0Ns3gEFLySKYOuBawAfGSXcgV4HiuuZRTX3bjETms24kcIn7ndldnWFxZonWOeYmvK59b99ZewawQ0Q_OLzKq8m9Qpyeh1XSWjIMDrP-uGKRMvzu379fxkvPnUtNo2XVWhw2asG5doHJe7zVh_Jp9WrLmJzxKWe1oY5alrSXyC2pXFch0pJdBEvk96ADHVGhnfxogoPkFI8Dzu03zk6ekVhcNw5IB--xPdJOCOnZxk6iqdVWJx0_yHR3Wo57vKjTdj2ADG96Q28C3EgwhLnhGCyOE2VYbsw__AnCtjrkCiK5_3e4KQfXmDk8bIWMerGlQk5nsZr5ntj5fsTNnfqWEmsmPfVk_xMy_SllvFiEJrVIDvam5aAt0ejpazvPMtaaQLvy_qxfzH8aRZ_x_wv2s-5jljnYE_MsWeC7W4ClNqWrxQ7ZfEgXvRDTSKGWRwyzODzu3Xn8Wz1g5rdExMOYK8VjsMSOCZ4_-zE5JRZvVjdNHXN5NagpsPjGuckus9qLRf9Xo9E_8aL-M2utHGwJpE6z5J64XG9qPPC0XDHzT6tstpvmYTXe-5uTBJtbzK8FLU_TSyV962I9ce3T_BHFXEi9s0cZDNbYDqB8G2d4Cy1U0V8KxtWQvb7KgG0sAMadnO6pUDZbu3sJYX1Wd6Np0k9T1zUMwfUv_OwGxffZneU_TaaFN8TwCoF-JbgaQpJdsrRX5gz9kWBK__yojlsKWihnq9awcNoNijmeRPEUzAZVUG7GbUENjl8U8D527SCSf24UR5fjIjUHId8iQEWxUM9ZaJbJFNMJp9v03Ty3watykX6_BVh6Tgg" 
+                        sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФИКСИРОВАННЫЕ КНОПКИ -->
+    <div class="fixed-nav">
+        <button class="nav-btn" onclick="location.href='{{ url_for('Novosibirsk') }}'">
+            <i class="fas fa-arrow-left me-1"></i>Назад
+        </button>
+        <button class="nav-btn" onclick="location.href='{{ url_for('domoi') }}'">
+            <i class="fas fa-home me-1"></i>Главная
+        </button>
+    </div>
+
+    <script>
+        function togglePanel() {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            const isActive = panel.classList.toggle('active');
+            
+            btn.classList.toggle('hidden', isActive);
+            btn.innerHTML = isActive ? '' : '<i class="fas fa-bars"></i>';
+        }
+
+        document.getElementById('togglePanel').addEventListener('click', togglePanel);
+
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            if (!panel.contains(event.target) && !btn.contains(event.target) && panel.classList.contains('active')) {
+                togglePanel();
+            }
+        });
+    </script>
+</body>
+</html>

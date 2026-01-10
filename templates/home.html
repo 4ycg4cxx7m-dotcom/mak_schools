@@ -1,0 +1,15 @@
+<!--home.html-->
+<!--home.html-->
+{% extends "base_home.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center text-primary my-4">Найти школу - ПРОСТО!</h1>
+    <h4 class="text-center text-secondary mb-4">Здесь вы сможете найти информацию об интересующей вас школе в нужном городе России!</h4>
+    <h2 class="text-center text-info mt-4">Выберите субьект России:</h2>
+    <ul class="list-group list-group-flush mb-3">
+    </ul>
+    <div class="text-center">
+        <a href="{{ url_for('sch_nskob') }}" class="btn btn-blue btn-lg mt-4" style="width: 100%;">Новосибирская область</a>
+    </div>
+</div>
+{% endblock %}

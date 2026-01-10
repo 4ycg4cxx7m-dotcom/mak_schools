@@ -1,0 +1,37 @@
+{% extends "base_sch.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 content-block">
+            <h2 class="text-center">Школа №29</h2>
+            <br />
+            <div class="border-panel">
+                <h3>Об образовательной организации:</h3>
+                <p>
+                    Школа №29 — муниципальное общеобразовательное учреждение города Новосибирска, обеспечивающее качественное образование и всестороннее развитие учащихся. Основной корпус школы находится по адресу: <strong>г. Новосибирск, ул. Советская, 68</strong>.
+                </p>
+                <p>
+                    В образовательном процессе школа уделяет внимание комплексному развитию учащихся, в том числе углубленному изучению профильных предметов и активному участию в различных научно-технических и культурных мероприятиях.
+                </p>
+                <p>
+                    Педагогический коллектив состоит из квалифицированных специалистов, которые регулярно участвуют в профессиональных конкурсах и семинарах, повышая уровень преподавания.
+                </p>
+                <p>
+                    Среди преимуществ школы — современное оснащение кабинетов, использование инновационных методик обучения и тесное взаимодействие с вузами и учреждениями культуры города.
+                </p>
+                <p><strong>Контактные адреса и данные:</strong></p>
+                <p><strong>Основной корпус: </strong>г. Новосибирск, ул. Советская, 68</p>
+                <p><strong>Ссылка в 2ГИС: </strong><a href="https://go.2gis.com/example" target="_blank" rel="noopener noreferrer">https://go.2gis.com/example</a></p>
+                <p><strong>Телефон и электронная почта:</strong> уточняйте на официальном сайте школы</p>
+                <p><strong>Сайт:</strong> <a href="https://school29.nsk.ru/" target="_blank" rel="noopener noreferrer">https://school29.nsk.ru/</a></p>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+    <div class="fixed-button-bar" id="fixedButtonBar">
+        <button onclick="location.href='{{ url_for('sch_nskob_nsk_cent') }}'">Вернуться на предыдущую страницу</button>
+        <button onclick="location.href='{{ url_for('domoi') }}'">Вернуться на главную</button>
+    </div>
+{% endblock %}

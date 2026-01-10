@@ -1,0 +1,21 @@
+{% extends "base_gorod.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center text-primary my-4">Новосибирск</h1>
+    <p class="text-center text-secondary mb-4"></p>
+    <h2 class="text-center text-info mt-6">Районы</h2>
+    <ul class="list-group list-group-flush mb-4">
+    </ul>
+    <div class="text-center">
+        <a href="{{ url_for('sch_nskob_nsk_cent') }}" class="btn btn-blue mb-1">Центральний район</a>
+        <a href="{{ url_for('sch_nskob_nsk_dzer') }}" class="btn btn-blue mb-3">Дзержинский район</a>
+    </div>
+</div>
+    <div class="text-right">
+        <div class="back-to-main-btn-wrapper">
+            <button onclick="location.href='{{ url_for('sch_nskob') }}'" class="mb-1">Вернуться на предыдущую</button>
+            <button onclick="location.href='{{ url_for('domoi') }}'">Вернуться на главную</button>
+        </div>
+</div>
+{% endblock %}

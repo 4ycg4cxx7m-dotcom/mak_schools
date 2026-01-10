@@ -1,0 +1,15 @@
+{% extends "base_obl.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center text-primary my-4">Новосибирская область</h1>
+    <p class="text-center text-secondary mb-4"></p>
+    <h2 class="text-center text-info mt-4">Районы Новосибирской области</h2>
+    <div class="text-center">
+        <a href="{{ url_for('Novosibirsk') }}" class="btn btn-blue btn-lg mt-4" style="width: 100%;">Новосибирск</a>
+    </div>
+</div>
+                <div class="back-to-main-btn-wrapper">
+                    <button onclick="location.href='{{ url_for('domoi') }}'">Вернуться на главную</button>
+                </div>
+{% endblock %}

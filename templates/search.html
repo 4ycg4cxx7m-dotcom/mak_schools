@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Поиск по сайту</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+.search-form { background: #f8f9fa; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+select, input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; }
+button { background: linear-gradient(135deg, #0062cc, #004a99); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; }
+button:hover { background: linear-gradient(135deg, #004a99, #003366); }
+.results { margin-top: 30px; }
+.result-item { background: white; margin: 10px 0; padding: 15px; border-radius: 10px; border-left: 4px solid #0062cc; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.result-title { font-weight: 600; color: #0062cc; margin-bottom: 5px; }
+.no-results { text-align: center; color: #666; font-style: italic; margin-top: 30px; }
+.loading { text-align: center; color: #666; margin: 20px 0; }
+
+/* Фиксированная кнопка "На главную" внизу сбоку */
+.back-to-main-btn-wrapper {
+    position: fixed;
+    bottom: 80px;
+    left: 51%;
+    transform: translateX(-50%);
+    width: 300px;
+    z-index: 1050;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid rgba(0, 98, 204, 0.1);
+}
+
+.back-to-main-btn-wrapper button {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #0062cc, #004a99);
+    box-shadow: 0 4px 12px rgba(0, 98, 204, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: Arial, sans-serif;
+}
+
+.back-to-main-btn-wrapper button:hover {
+    background: linear-gradient(135deg, #004a99, #003366);
+    box-shadow: 0 6px 16px rgba(0, 74, 153, 0.6);
+    transform: translateY(-1px);
+}
+
+.back-to-main-btn-wrapper button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 74, 153, 0.4);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .back-to-main-btn-wrapper {
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        bottom: 120px;
+        max-width: 300px;
+    }
+
+    .back-to-main-btn-wrapper button {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.9rem;
+    }
+}
+</style>
+</head>
+<body>
+<div class="search-form">
+<h1 style="text-align: center; color: #333; margin-bottom: 30px;">🔍 Поиск по сайту</h1>
+<form id="searchForm">
+<label>Область поиска:</label>
+<select id="scope" name="scope">
+<option value="all">Весь сайт</option>
+<option value="nsk">Новосибирск</option>
+</select>
+
+<label style="margin-top: 20px;">Введите запрос (минимум 3 символа или 1 цифру):</label>
+<input type="text" id="query" name="query" placeholder="Например: 'гимназия' или '54'" autofocus>
+
+<button type="submit">🔍 Искать</button>
+</form>
+
+<div id="results" class="results"></div>
+</div>
+
+<!-- Фиксированная кнопка "На главную" -->
+<div class="back-to-main-btn-wrapper">
+    <a href="/home">
+        <button>🏠 На главную страницу</button>
+    </a>
+</div>
+
+<script>
+let debounceTimer;
+
+// Динамический поиск при вводе
+document.getElementById('query').addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    const query = this.value.trim();
+    const scope = document.getElementById('scope').value;
+
+    debounceTimer = setTimeout(() => {
+        if (query.length >= 3 || (query.length >= 1 && /^\d+$/.test(query))) {
+            search(query, scope);
+        } else {
+            document.getElementById('results').innerHTML = '';
+        }
+    }, 300);
+});
+
+// Поиск при смене области
+document.getElementById('scope').addEventListener('change', function() {
+    const query = document.getElementById('query').value.trim();
+    if (query.length >= 3 || (query.length >= 1 && /^\d+$/.test(query))) {
+        search(query, this.value);
+    }
+});
+
+// Форма поиска
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const query = document.getElementById('query').value.trim();
+    const scope = document.getElementById('scope').value;
+    search(query, scope);
+});
+
+function search(query, scope) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<div class="loading">🔄 Поиск...</div>';
+
+    fetch(`/api/search?q=${encodeURIComponent(query)}&scope=${scope}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.length === 0) {
+            resultsDiv.innerHTML = '<div class="no-results">❌ Ничего не найдено</div>';
+        } else {
+            let html = `<h3>✅ Найдено результатов: ${data.length}</h3>`;
+            data.forEach(result => {
+                html += `
+                <div class="result-item">
+                    <a href="${result.url}" class="result-title">${result.title}</a>
+                </div>
+                `;
+            });
+            resultsDiv.innerHTML = html;
+        }
+    })
+    .catch(() => {
+        resultsDiv.innerHTML = '<div class="no-results">❌ Ошибка поиска</div>';
+    });
+}
+</script>
+</body>
+</html>
