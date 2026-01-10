@@ -20,6 +20,7 @@ def support_author():
 def Политика_Конфиденциальности():
     return render_template('Политика_Конфиденциальности.html')
 
+
 @app.route('/all_schools')
 def all_schools():
     return render_template('all_schools.html')
@@ -47,6 +48,43 @@ def sch_nskob_nsk_cent():
 @app.route('/gimn1nsk')
 def gimn1nsk():
     return render_template('Asch_nskob_nsk_cent_gim1.html')
+
+
+@app.route('/nslic220nsk')
+def nslic220nsk():
+    return render_template('Asch_nskob_nsk_cent_lic22.html')
+
+@app.route('/Asch_nskob_nsk_cent_sch29')
+def Asch_nskob_nsk_cent_sch29():  # ИСПРАВЛЕНО: убрал .html
+    return render_template('Asch_nskob_nsk_cent_sch29.html')
+
+@app.route('/Asch_nskob_nsk_cent_sch54')
+def Asch_nskob_nsk_cent_sch54():
+    return render_template('Asch_nskob_nsk_cent_sch54.html')
+
+@app.route('/Asch_nskob_nsk_cent_sch4')
+def Asch_nskob_nsk_cent_sch4():
+    return render_template('Asch_nskob_nsk_cent_sch4.html')
+
+@app.route('/Asch_nskob_nsk_cent_sch156')
+def Asch_nskob_nsk_cent_sch156():
+    return render_template('Asch_nskob_nsk_cent_sch156.html')
+
+@app.route('/Asch_nskob_nsk_cent_lic12')
+def Asch_nskob_nsk_cent_lic12():
+    return render_template('Asch_nskob_nsk_cent_lic12.html')
+
+@app.route('/sch_nskob_nsk_dzer')
+def sch_nskob_nsk_dzer():
+    return render_template('Asch_nskob_nsk_dzer.html')
+
+@app.route('/sch_nskob_nsk_dzer_sch2')
+def sch_nskob_nsk_dzer_sch2():
+    return render_template('Asch_nskob_nsk_dzer_sch2.html')
+
+@app.route('/sch_nskob_nsk_dzer_sch1')
+def sch_nskob_nsk_dzer_sch1():
+    return render_template('Asch_nskob_nsk_dzer_sch1.html')
 
 @app.route('/domoi')
 def domoi():
