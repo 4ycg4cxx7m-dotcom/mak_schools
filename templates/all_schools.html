@@ -337,7 +337,9 @@
     <!-- БОКОВАЯ ПАНЕЛЬ -->
     <div class="side-panel" id="sidePanel">
         <div class="panel-header">
-            <h3><i class="fas fa-th me-2"></i>Навигация</h3>
+            <h3>
+                <i class="fas fa-th me-2"></i>Навигация
+            </h3>
         </div>
         
         <div class="panel-section">
@@ -345,23 +347,26 @@
             <a href="{{ url_for('search') }}" class="panel-btn">
                 <i class="fas fa-search me-3"></i>Поиск на сайте
             </a>
-            <a href="{{ url_for('all_schools') }}" class="panel-btn active">
+            <a href="{{ url_for('all_schools') }}" class="panel-btn">
                 <i class="fas fa-list me-3"></i>Все школы
+            </a>
+            <a href="{{ url_for('support') }}" class="panel-btn">
+                <i class="fas fa-life-ring me-3"></i>Поддержка
             </a>
         </div>
         
         <div class="panel-section">
             <h4><i class="fas fa-heart me-2"></i>Поддержка</h4>
-            <a href="{{ url_for('support') }}" class="panel-btn">
-                <i class="fas fa-life-ring me-3"></i>Поддержка
-            </a>
-            <a href="{{ url_for('support_author') }}" class="panel-btn">
+            <a href="{{ url_for('support_author') }}" class="panel-btn support-btn">
                 <i class="fas fa-heart me-3"></i>Поддержать проект
+            </a>
+            <a href="{{ url_for('Информация_о_сайте') }}" class="panel-btn support-btn">
+                <i class="fas fa-info-circle me-3"></i>О сайте
             </a>
         </div>
         
         <div class="panel-section">
-            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn">
+            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn" style="font-size: 0.92rem;">
                 <i class="fas fa-shield-alt me-3"></i>Политика конфиденциальности
             </a>
         </div>
