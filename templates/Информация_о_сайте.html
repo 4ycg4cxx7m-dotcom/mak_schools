@@ -1,71 +1,144 @@
-<!--Файл Информация_о_сайте.html-->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Информация о сайте</title>
     <style>
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             background: linear-gradient(135deg, #4a90e2, #6699cc);
             height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
+
         .info-container {
+            width: min(98vw, 98vh, 700px);
+            height: min(98vw, 98vh, 700px);
+            aspect-ratio: 1/1;
+            
             background: linear-gradient(135deg, #0069d9, #004085);
             color: white;
-            padding: 3rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 64, 128, 0.4);
+            /* МЕНЬШЕ padding снизу */
+            padding: clamp(3rem, 7vw, 5rem) clamp(3rem, 7vw, 5rem) clamp(2rem, 5vw, 3rem);
+            border-radius: 28px;
+            box-shadow: 0 25px 70px rgba(0, 64, 128, 0.7);
             text-align: center;
-            width: 60vw;
-            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* ВАЖНО */
+            align-items: center;
+            position: relative;
             font-weight: 500;
-            line-height: 1.5;
+            line-height: 1.6;
         }
+
         .info-container h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            font-size: clamp(2rem, 7vw, 3.2rem);
+            margin-bottom: 2rem;
             font-weight: 700;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+            line-height: 1.15;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
         }
+
         .info-container h3 {
+            font-size: clamp(1.1rem, 4vw, 1.6rem);
             font-weight: 500;
-            margin: 1.2rem 0;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            margin: 1.5rem 0;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            line-height: 1.4;
+            max-width: 92%;
         }
+
+        /* КНОПКА точно как на вступительной */
         .btn-custom {
-            background-color: #3399ff;
+            background: linear-gradient(135deg, #3399ff, #2673cc);
             color: #fff;
             border: none;
-            padding: 0.75rem 2.5rem;
-            font-size: 1.1rem;
+            padding: clamp(1rem, 3.5vw, 1.2rem) 3rem;
+            font-size: clamp(1.1rem, 3.5vw, 1.3rem);
             font-weight: 600;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(51,153,255,0.6);
+            border-radius: 35px;
+            box-shadow: 0 8px 25px rgba(51,153,255,0.7);
             cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
             display: inline-block;
-            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            margin: 1rem 0 0 0; /* МЕНЬШЕ отступ сверху */
         }
+
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
         .btn-custom:hover {
-            background-color: #2673cc;
-            box-shadow: 0 6px 20px rgba(38,115,204,0.8);
-            text-decoration: none;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(38,115,204,0.9);
             color: white;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover::before {
+            left: 100%;
+        }
+
+        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+            
+            .info-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                margin: 0;
+                padding: 2.5rem 2.5rem 2rem 2.5rem;
+                justify-content: space-between;
+            }
+            
+            .btn-custom {
+                padding: clamp(0.8rem, 3vw, 1rem) 2.5rem;
+                font-size: clamp(1rem, 3vw, 1.2rem);
+                width: 90%;
+            }
+        }
+
+        /* ДЕСКТОП */
+        @media (min-width: 481px) {
+            .info-container {
+                width: min(700px, 98vh);
+                height: min(700px, 98vh);
+            }
         }
     </style>
 </head>
 <body>
     <div class="info-container">
-        <h1>Информация о сайте</h1>
-        <h3>Сайт в большей степени создан при помощи искусственного интеллекта</h3>
-        <h3>Создание сайта заняло много времени и я очень надеюсь что этот проект будет вам полезен)</h3>
-        <a href="{{ url_for('home') }}" class="btn-custom">Вернуться на главный экран</a>
+        <div> <!-- ОБЕРНУТКА для контента -->
+            <h1>Информация о сайте</h1>
+            <h3>Сайт в большей степени создан при помощи искусственного интеллекта</h3>
+            <h3>Создание сайта заняло много времени и я очень надеюсь что этот проект будет вам полезен)</h3>
+        </div>
+        <a href="{{ url_for('home') }}" class="btn-custom">На главный</a>
     </div>
 </body>
 </html>
