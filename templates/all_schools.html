@@ -57,6 +57,14 @@
             justify-content: center;
         }
 
+        .toggle-panel-btn i {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toggle-panel-btn.active i {
+            transform: rotate(90deg);
+        }
+
         .toggle-panel-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 16px 48px rgba(0,98,204,0.4);
@@ -105,6 +113,15 @@
             padding: 0 1.8rem 1.8rem;
         }
 
+        .panel-section h4 {
+            margin: 1.5rem 0 1rem 0;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
         .panel-btn {
             display: block;
             width: 100%;
@@ -130,6 +147,18 @@
             box-shadow: 0 4px 16px rgba(0,98,204,0.2);
         }
 
+        .support-btn {
+            border-color: #dee2e6;
+            color: #6c757d;
+        }
+
+        .support-btn:hover {
+            background: #6c757d;
+            color: white;
+            border-color: #6c757d;
+        }
+
+        /* остальные стили без изменений */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -334,12 +363,10 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- БОКОВАЯ ПАНЕЛЬ -->
+    <!-- ✅ ПОЛНАЯ БОКОВАЯ ПАНЕЛЬ КАК В ГЛАВНОЙ -->
     <div class="side-panel" id="sidePanel">
         <div class="panel-header">
-            <h3>
-                <i class="fas fa-th me-2"></i>Навигация
-            </h3>
+            <h3><i class="fas fa-th me-2"></i>Навигация</h3>
         </div>
         
         <div class="panel-section">
@@ -347,7 +374,7 @@
             <a href="{{ url_for('search') }}" class="panel-btn">
                 <i class="fas fa-search me-3"></i>Поиск на сайте
             </a>
-            <a href="{{ url_for('all_schools') }}" class="panel-btn">
+            <a href="{{ url_for('all_schools') }}" class="panel-btn active">
                 <i class="fas fa-list me-3"></i>Все школы
             </a>
             <a href="{{ url_for('support') }}" class="panel-btn">
@@ -357,9 +384,11 @@
         
         <div class="panel-section">
             <h4><i class="fas fa-heart me-2"></i>Поддержка</h4>
+            <!-- ✅ ДОБАВЛЕНА КНОПКА "О САЙТЕ" -->
             <a href="{{ url_for('support_author') }}" class="panel-btn support-btn">
                 <i class="fas fa-heart me-3"></i>Поддержать проект
             </a>
+            <!-- ✅ ДОБАВЛЕНА КНОПКА "ИНФОРМАЦИЯ О САЙТЕ" -->
             <a href="{{ url_for('Информация_о_сайте') }}" class="panel-btn support-btn">
                 <i class="fas fa-info-circle me-3"></i>О сайте
             </a>
@@ -378,7 +407,7 @@
             <h1 class="page-title">🏫 Все школы</h1>
         </div>
 
-        <!-- ✅ ПЕРЕКЛЮЧАТЕЛЬ ГОРОДОВ -->
+        <!-- ПЕРЕКЛЮЧАТЕЛЬ ГОРОДОВ -->
         <div class="city-selector">
             <button class="city-btn active" data-city="nsk">
                 <i class="fas fa-city"></i> Новосибирск (15 школ)
@@ -388,7 +417,7 @@
             </button>
         </div>
 
-        <!-- ✅ НОВОСИБИРСК - ПОЛНЫЙ СПИСОК -->
+        <!-- НОВОСИБИРСК - ВСЕ 15 ШКОЛ -->
         <div class="schools-wrapper active" id="nsk-schools">
             <div class="schools-count">📍 Новосибирск: 15 школ</div>
             <h2 class="section-title">Школы Новосибирска</h2>
@@ -401,62 +430,62 @@
                     <i class="fas fa-graduation-cap"></i>
                     <div>Лицей №22<br><small>«Надежда Сибири»</small></div>
                 </a>
-                <a href="{{ url_for('sch_nskob_nsk_dzer_sch1') }}" class="school-btn">
-                    <i class="fas fa-school"></i>
-                    Школа №1 (Дзерж.)
-                </a>
-                <a href="{{ url_for('sch_nskob_nsk_dzer_sch2') }}" class="school-btn">
-                    <i class="fas fa-school"></i>
-                    Школа №2 (Дзерж.)
+                <a href="#" class="school-btn" title="Страница в разработке">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>Гимназия №13<br><small>Новосибирск</small></div>
                 </a>
                 <a href="{{ url_for('Asch_nskob_nsk_cent_lic12') }}" class="school-btn">
                     <i class="fas fa-graduation-cap"></i>
-                    Лицей №12
+                    <div>Лицей №12<br><small>Центральный р-н</small></div>
+                </a>
+                <a href="#" class="school-btn" title="Страница в разработке">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>Экономический лицей<br><small>Новосибирск</small></div>
                 </a>
                 <a href="{{ url_for('Asch_nskob_nsk_cent_sch29') }}" class="school-btn">
                     <i class="fas fa-school"></i>
-                    Школа №29
+                    <div>Школа №29<br><small>Центральный р-н</small></div>
                 </a>
                 <a href="{{ url_for('Asch_nskob_nsk_cent_sch54') }}" class="school-btn">
                     <i class="fas fa-school"></i>
-                    Школа №54
+                    <div>Школа №54<br><small>Центральный р-н</small></div>
                 </a>
                 <a href="{{ url_for('Asch_nskob_nsk_cent_sch4') }}" class="school-btn">
                     <i class="fas fa-school"></i>
-                    Школа №4
+                    <div>Школа №4<br><small>Центральный р-н</small></div>
                 </a>
                 <a href="{{ url_for('Asch_nskob_nsk_cent_sch156') }}" class="school-btn">
                     <i class="fas fa-school"></i>
-                    Школа №156
+                    <div>Школа №156<br><small>Центральный р-н</small></div>
+                </a>
+                <a href="{{ url_for('sch_nskob_nsk_dzer_sch1') }}" class="school-btn">
+                    <i class="fas fa-school"></i>
+                    <div>Школа №1<br><small>Дзержинский р-н</small></div>
+                </a>
+                <a href="{{ url_for('sch_nskob_nsk_dzer_sch2') }}" class="school-btn">
+                    <i class="fas fa-school"></i>
+                    <div>Школа №2<br><small>Дзержинский р-н</small></div>
                 </a>
                 <a href="#" class="school-btn" title="Страница в разработке">
                     <i class="fas fa-graduation-cap"></i>
-                    Гимназия №13
+                    <div>Лицей №136<br><small>Ленинский р-н</small></div>
                 </a>
                 <a href="#" class="school-btn" title="Страница в разработке">
                     <i class="fas fa-graduation-cap"></i>
-                    Лицей №136
+                    <div>Лицей №176<br><small>Кировский р-н</small></div>
                 </a>
                 <a href="#" class="school-btn" title="Страница в разработке">
                     <i class="fas fa-graduation-cap"></i>
-                    Лицей №176
-                </a>
-                <a href="#" class="school-btn" title="Страница в разработке">
-                    <i class="fas fa-graduation-cap"></i>
-                    Гимназия №7
-                </a>
-                <a href="#" class="school-btn" title="Страница в разработке">
-                    <i class="fas fa-graduation-cap"></i>
-                    Экономический лицей
+                    <div>Гимназия №7<br><small>Сибирская</small></div>
                 </a>
                 <a href="#" class="school-btn" title="Страница в разработке">
                     <i class="fas fa-school"></i>
-                    Школа №120
+                    <div>Школа №120<br><small>Новосибирск</small></div>
                 </a>
             </div>
         </div>
 
-        <!-- ✅ ОМСК (ПРИМЕР) -->
+        <!-- ОМСК -->
         <div class="schools-wrapper" id="omsk-schools">
             <div class="schools-count">📍 Омск: 2 школы</div>
             <h2 class="section-title">Школы Омска</h2>
@@ -473,7 +502,7 @@
         </div>
     </div>
 
-    <!-- ✅ ФИКСИРОВАННЫЕ КНОПКИ -->
+    <!-- ФИКСИРОВАННЫЕ КНОПКИ -->
     <div class="fixed-nav">
         <button class="nav-btn" onclick="location.href='{{ url_for('sch_nskob') }}'">
             <i class="fas fa-arrow-left"></i> Назад
@@ -484,7 +513,7 @@
     </div>
 
     <script>
-        // Боковая панель
+        // Боковая панель - ТОЧНО КАК В ГЛАВНОЙ
         function togglePanel() {
             const panel = document.getElementById('sidePanel');
             const btn = document.getElementById('togglePanel');
