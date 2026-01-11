@@ -74,6 +74,15 @@ def Asch_nskob_nsk_cent_sch156():
 def Asch_nskob_nsk_cent_lic12():
     return render_template('Asch_nskob_nsk_cent_lic12.html')
 
+
+@app.route('/Asch_nskob_nsk_cent_gim13')
+def Asch_nskob_nsk_cent_gim13():
+    return render_template('Asch_nskob_nsk_cent_gim13.html')
+
+@app.route('/Asch_nskob_nsk_cent_licEkl')
+def Asch_nskob_nsk_cent_licEkl():
+    return render_template('Asch_nskob_nsk_cent_licEkl.html')
+
 @app.route('/sch_nskob_nsk_dzer')
 def sch_nskob_nsk_dzer():
     return render_template('Asch_nskob_nsk_dzer.html')
