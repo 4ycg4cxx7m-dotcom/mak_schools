@@ -1,168 +1,578 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Поиск по сайту</title>
-<style>
-body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-.search-form { background: #f8f9fa; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-select, input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; }
-button { background: linear-gradient(135deg, #0062cc, #004a99); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; }
-button:hover { background: linear-gradient(135deg, #004a99, #003366); }
-.results { margin-top: 30px; }
-.result-item { background: white; margin: 10px 0; padding: 15px; border-radius: 10px; border-left: 4px solid #0062cc; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.result-title { font-weight: 600; color: #0062cc; margin-bottom: 5px; }
-.no-results { text-align: center; color: #666; font-style: italic; margin-top: 30px; }
-.loading { text-align: center; color: #666; margin: 20px 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Поиск школ - Расширенный</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0062cc;
+            --primary-dark: #004a99;
+            --primary-light: #00a8e8;
+            --bg: #f0f4f8;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: 0 8px 32px rgba(0, 98, 204, 0.15);
+            --shadow-hover: 0 12px 40px rgba(0, 98, 204, 0.25);
+            --border: #e1e8ed;
+            --panel-bg: #f8fafc;
+            --panel-header: #e3f2fd;
+        }
 
-/* Фиксированная кнопка "На главную" внизу сбоку */
-.back-to-main-btn-wrapper {
-    position: fixed;
-    bottom: 80px;
-    left: 51%;
-    transform: translateX(-50%);
-    width: 300px;
-    z-index: 1050;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 12px;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    border: 1px solid rgba(0, 98, 204, 0.1);
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.back-to-main-btn-wrapper button {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    font-size: 0.85rem;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    background: linear-gradient(135deg, #0062cc, #004a99);
-    box-shadow: 0 4px 12px rgba(0, 98, 204, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: Arial, sans-serif;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 140px;
+        }
 
-.back-to-main-btn-wrapper button:hover {
-    background: linear-gradient(135deg, #004a99, #003366);
-    box-shadow: 0 6px 16px rgba(0, 74, 153, 0.6);
-    transform: translateY(-1px);
-}
+        /* ЛЕВАЯ КНОПКА ПАНЕЛИ */
+        .toggle-panel-btn {
+            position: fixed;
+            top: 20px;
+            left: 25px;
+            z-index: 2000;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-hover);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.back-to-main-btn-wrapper button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 74, 153, 0.4);
-}
+        .toggle-panel-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 16px 48px rgba(0,98,204,0.4);
+        }
 
-/* Адаптивность для мобильных устройств */
-@media (max-width: 768px) {
-    .back-to-main-btn-wrapper {
-        right: 10px;
-        left: 10px;
-        width: calc(100% - 20px);
-        bottom: 120px;
-        max-width: 300px;
-    }
+        /* БОКОВАЯ ПАНЕЛЬ */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--panel-bg);
+            border-radius: 0 20px 20px 0;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+            z-index: 1500;
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
 
-    .back-to-main-btn-wrapper button {
-        font-size: 0.8rem;
-        padding: 0.45rem 0.9rem;
-    }
-}
-</style>
+        .side-panel.active {
+            left: 0;
+        }
+
+        .panel-header {
+            padding: 1.8rem 1.8rem 1.8rem 90px;
+            background: var(--panel-header);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+        }
+
+        .panel-section {
+            padding: 0 1.8rem 1.8rem;
+        }
+
+        .panel-btn {
+            display: block;
+            width: 100%;
+            padding: 1.1rem 1.4rem;
+            margin-bottom: 0.8rem;
+            background: var(--white);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+        }
+
+        .panel-btn:hover, .panel-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0,98,204,0.2);
+        }
+
+        /* СЕЛЕКТОР ОБЛАСТИ ПОИСКА */
+        .search-scope-selector {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .scope-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .scope-btn.active, .scope-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 16px rgba(0,98,204,0.2);
+        }
+
+        /* КОНТЕЙНЕР */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* ЗАГОЛОВОК СТРАНИЦЫ */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* ПОЛЕ ПОИСКА */
+        .search-section {
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            padding: 2.5rem 2rem;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            max-width: 100%;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 1.5rem 2.5rem 1.5rem 3.5rem;
+            font-size: 1.2rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+            font-weight: 500;
+        }
+
+        #search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0,98,204,0.1);
+            background: var(--white);
+            transform: scale(1.02);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.3rem;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        #search-input:focus + .search-icon {
+            color: var(--primary);
+        }
+
+        /* КНОПКА ПОИСКА */
+        .search-btn {
+            width: 100%;
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,98,204,0.4);
+        }
+
+        /* РЕЗУЛЬТАТЫ ПОИСКА */
+        .results-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .results-count {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .result-item {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.8rem;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: var(--shadow);
+        }
+
+        .result-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* ФИКСИРОВАННЫЕ КНОПКИ */
+        .fixed-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            background: var(--white);
+            padding: 1rem 1.8rem;
+            border-radius: 25px;
+            box-shadow: var(--shadow-hover);
+            border: 1px solid var(--border);
+            max-width: 90vw;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 768px) {
+            .toggle-panel-btn {
+                top: 15px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .side-panel {
+                width: 100%;
+                left: -100%;
+            }
+            
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .fixed-nav {
+                flex-direction: column;
+                width: 90%;
+                max-width: 350px;
+            }
+            
+            .search-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-scope-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="search-form">
-<h1 style="text-align: center; color: #333; margin-bottom: 30px;">🔍 Поиск по сайту</h1>
-<form id="searchForm">
-<label>Область поиска:</label>
-<select id="scope" name="scope">
-<option value="all">Весь сайт</option>
-<option value="nsk">Новосибирск</option>
-</select>
+    <!-- ЛЕВАЯ КНОПКА -->
+    <button class="toggle-panel-btn" id="togglePanel" title="Меню">
+        <i class="fas fa-bars"></i>
+    </button>
 
-<label style="margin-top: 20px;">Введите запрос (минимум 3 символа или 1 цифру):</label>
-<input type="text" id="query" name="query" placeholder="Например: 'гимназия' или '54'" autofocus>
+    <!-- БОКОВАЯ ПАНЕЛЬ -->
+    <div class="side-panel" id="sidePanel">
+        <div class="panel-header">
+            <h3><i class="fas fa-th me-2"></i>Навигация</h3>
+        </div>
+        
+        <div class="panel-section">
+            <h4><i class="fas fa-search me-2"></i>Поиск</h4>
+            <a href="{{ url_for('search') }}" class="panel-btn active">
+                <i class="fas fa-search me-3"></i>Поиск на сайте
+            </a>
+        </div>
+        
+        <div class="panel-section">
+            <h4><i class="fas fa-heart me-2"></i>Поддержка</h4>
+            <a href="{{ url_for('support') }}" class="panel-btn">
+                <i class="fas fa-life-ring me-3"></i>Поддержка
+            </a>
+        </div>
+        
+        <div class="panel-section">
+            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn">
+                <i class="fas fa-shield-alt me-3"></i>Политика конфиденциальности
+            </a>
+        </div>
+    </div>
 
-<button type="submit">🔍 Искать</button>
-</form>
+    <div class="container">
+        <!-- ЗАГОЛОВОК -->
+        <div class="page-header">
+            <h1 class="page-title">🔍 Поиск школ</h1>
+            <p class="page-subtitle">Введите номер школы или название учреждения</p>
+        </div>
+        
+        <!-- СЕЛЕКТОР ОБЛАСТИ ПОИСКА -->
+        <div class="search-scope-selector">
+            <button class="scope-btn active" data-scope="all">🏠 Все файлы</button>
+            <button class="scope-btn" data-scope="nsk">🏫 Школы НСК</button>
+        </div>
+        
+        <!-- ПОЛЕ ПОИСКА -->
+        <div class="search-section">
+            <div class="search-input-wrapper">
+                <input type="text" id="search-input" placeholder="Введите номер школы или название..." autofocus>
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <button id="search-btn" class="search-btn">
+                <i class="fas fa-magnifying-glass me-2"></i>Найти
+            </button>
+            <div id="results"></div>
+        </div>
+    </div>
 
-<div id="results" class="results"></div>
-</div>
+    <!-- ФИКСИРОВАННЫЕ КНОПКИ -->
+    <div class="fixed-nav">
+        <button class="nav-btn" onclick="location.href='{{ url_for('sch_nskob') }}'">
+            <i class="fas fa-arrow-left"></i>Назад
+        </button>
+        <button class="nav-btn" onclick="location.href='{{ url_for('domoi') }}'">
+            <i class="fas fa-home"></i>Главная
+        </button>
+    </div>
 
-<!-- Фиксированная кнопка "На главную" -->
-<div class="back-to-main-btn-wrapper">
-    <a href="/home">
-        <button>🏠 На главную страницу</button>
-    </a>
-</div>
-
-<script>
-let debounceTimer;
-
-// Динамический поиск при вводе
-document.getElementById('query').addEventListener('input', function() {
-    clearTimeout(debounceTimer);
-    const query = this.value.trim();
-    const scope = document.getElementById('scope').value;
-
-    debounceTimer = setTimeout(() => {
-        if (query.length >= 3 || (query.length >= 1 && /^\d+$/.test(query))) {
-            search(query, scope);
-        } else {
-            document.getElementById('results').innerHTML = '';
+    <script>
+        // Боковая панель
+        function togglePanel() {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            const isActive = panel.classList.toggle('active');
+            btn.classList.toggle('active', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
         }
-    }, 300);
-});
 
-// Поиск при смене области
-document.getElementById('scope').addEventListener('change', function() {
-    const query = document.getElementById('query').value.trim();
-    if (query.length >= 3 || (query.length >= 1 && /^\d+$/.test(query))) {
-        search(query, this.value);
-    }
-});
+        document.getElementById('togglePanel').addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePanel();
+        });
 
-// Форма поиска
-document.getElementById('searchForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const query = document.getElementById('query').value.trim();
-    const scope = document.getElementById('scope').value;
-    search(query, scope);
-});
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            if (!panel.contains(event.target) && !btn.contains(event.target) && panel.classList.contains('active')) {
+                togglePanel();
+            }
+        });
 
-function search(query, scope) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '<div class="loading">🔄 Поиск...</div>';
-
-    fetch(`/api/search?q=${encodeURIComponent(query)}&scope=${scope}`)
-    .then(response => response.json())
-    .then(data => {
-        if (data.length === 0) {
-            resultsDiv.innerHTML = '<div class="no-results">❌ Ничего не найдено</div>';
-        } else {
-            let html = `<h3>✅ Найдено результатов: ${data.length}</h3>`;
-            data.forEach(result => {
-                html += `
-                <div class="result-item">
-                    <a href="${result.url}" class="result-title">${result.title}</a>
-                </div>
-                `;
+        // Выбор области поиска
+        let currentScope = 'all';
+        document.querySelectorAll('.scope-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.scope-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentScope = this.dataset.scope;
             });
-            resultsDiv.innerHTML = html;
+        });
+
+        // Поиск по кнопке
+        document.getElementById('search-btn').addEventListener('click', performSearch);
+        
+        // Поиск по Enter
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Поиск по input (автокомплит)
+        document.getElementById('search-input').addEventListener('input', function() {
+            let query = this.value.trim();
+            const resultsDiv = document.getElementById('results');
+            
+            if (query.length > 2) {
+                fetch(`/api/search?q=${encodeURIComponent(query)}&scope=${currentScope}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displayResults(data, query);
+                    })
+                    .catch(error => {
+                        resultsDiv.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-triangle"></i><br>Произошла ошибка при поиске.</div>';
+                    });
+            } else {
+                resultsDiv.innerHTML = '';
+            }
+        });
+
+        function performSearch() {
+            let query = document.getElementById('search-input').value.trim();
+            if (query.length > 0) {
+                fetch(`/api/search?q=${encodeURIComponent(query)}&scope=${currentScope}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displayResults(data, query);
+                    })
+                    .catch(error => {
+                        document.getElementById('results').innerHTML = '<div class="no-results"><i class="fas fa-exclamation-triangle"></i><br>Произошла ошибка при поиске.</div>';
+                    });
+            }
         }
-    })
-    .catch(() => {
-        resultsDiv.innerHTML = '<div class="no-results">❌ Ошибка поиска</div>';
-    });
-}
-</script>
+
+        function displayResults(results, query) {
+            const resultsDiv = document.getElementById('results');
+            const resultsSection = document.createElement('div');
+            resultsSection.className = 'results-section';
+            
+            if (results.length === 0) {
+                resultsSection.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search fa-3x" style="opacity: 0.5; margin-bottom: 1rem;"></i>
+                        <div>Ничего не найдено по запросу "${query}"</div>
+                        <div style="font-size: 0.95rem; opacity: 0.7; margin-top: 0.5rem;">
+                            Попробуйте изменить запрос или область поиска
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultsSection.innerHTML = `
+                    <div class="results-header">
+                        <div class="results-count">Найдено результатов: ${results.length}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">
+                            Область поиска: ${currentScope === 'all' ? 'Все файлы' : 'Школы НСК'}
+                        </div>
+                    </div>
+                    <div class="results-grid">
+                        ${results.map(result => `
+                            <a href="${result.url}" class="result-item">
+                                <div class="result-title">${result.title}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            resultsDiv.innerHTML = '';
+            resultsDiv.appendChild(resultsSection);
+        }
+    </script>
 </body>
 </html>
