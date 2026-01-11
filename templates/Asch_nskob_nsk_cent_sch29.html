@@ -1,37 +1,107 @@
 {% extends "base_sch.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8 content-block">
-            <h2 class="text-center">Школа №29</h2>
-            <br />
-            <div class="border-panel">
-                <h3>Об образовательной организации:</h3>
-                <p>
-                    Школа №29 — муниципальное общеобразовательное учреждение города Новосибирска, обеспечивающее качественное образование и всестороннее развитие учащихся. Основной корпус школы находится по адресу: <strong>г. Новосибирск, ул. Советская, 68</strong>.
-                </p>
-                <p>
-                    В образовательном процессе школа уделяет внимание комплексному развитию учащихся, в том числе углубленному изучению профильных предметов и активному участию в различных научно-технических и культурных мероприятиях.
-                </p>
-                <p>
-                    Педагогический коллектив состоит из квалифицированных специалистов, которые регулярно участвуют в профессиональных конкурсах и семинарах, повышая уровень преподавания.
-                </p>
-                <p>
-                    Среди преимуществ школы — современное оснащение кабинетов, использование инновационных методик обучения и тесное взаимодействие с вузами и учреждениями культуры города.
-                </p>
-                <p><strong>Контактные адреса и данные:</strong></p>
-                <p><strong>Основной корпус: </strong>г. Новосибирск, ул. Советская, 68</p>
-                <p><strong>Ссылка в 2ГИС: </strong><a href="https://go.2gis.com/example" target="_blank" rel="noopener noreferrer">https://go.2gis.com/example</a></p>
-                <p><strong>Телефон и электронная почта:</strong> уточняйте на официальном сайте школы</p>
-                <p><strong>Сайт:</strong> <a href="https://school29.nsk.ru/" target="_blank" rel="noopener noreferrer">https://school29.nsk.ru/</a></p>
+<div class="main-container">
+    <!-- ЗАГОЛОВОК НАД КОЛОНКАМИ -->
+    <div class="content-wrapper">
+        <h2 class="text-center title-with-spacing mb-5">Школа №29</h2>
+        
+        <!-- ДВЕ КОЛОНКИ НА ОДНОМ УРОВНЕ -->
+        <div class="two-column-layout">
+            <!-- ЛЕВАЯ КОЛОНКА 70% - ОПИСАНИЕ -->
+            <div class="left-column">
+                <div class="border-panel school-description">
+                    <h3>Об образовательной организации:</h3>
+                    <p>
+                        Школа №29 — муниципальное общеобразовательное учреждение города Новосибирска, обеспечивающее качественное образование и всестороннее развитие учащихся. Основной корпус школы находится по адресу: <strong>г. Новосибирск, ул. Советская, 68</strong>.
+                    </p>
+                    <p>
+                        В образовательном процессе школа уделяет внимание комплексному развитию учащихся, углубленному изучению профильных предметов и активному участию в научно-технических и культурных мероприятиях.
+                    </p>
+                    <p>
+                        Преимущества школы — квалифицированный педагогический коллектив, современное оснащение кабинетов, инновационные методики обучения и тесное взаимодействие с вузами и учреждениями культуры города.
+                    </p>
+                    
+                    <p><strong>Адрес корпуса:</strong></p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-12">
+                            <div class="card h-100 border-0 shadow-sm p-3">
+                                <h5 class="card-title mb-2">Основной корпус</h5>
+                                <p class="card-text mb-3">г. Новосибирск, ул. Советская, 68</p>
+                                <a href="https://go.2gis.com/example" target="_blank" rel="noopener noreferrer" 
+                                   class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-map-marker-alt me-1"></i>Открыть в 2ГИС
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-globe me-2 text-primary"></i>
+                                <strong>Официальный сайт:</strong>
+                            </div>
+                            <a href="https://school29.nsk.ru/" target="_blank" rel="noopener noreferrer" 
+                               class="btn btn-link p-0 text-decoration-none">
+                                school29.nsk.ru
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone me-2 text-primary"></i>
+                                <strong>Телефон и email:</strong>
+                            </div>
+                            <p class="mb-1 text-muted small">
+                                Уточняйте на официальном сайте школы
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
+
+            <!-- ПРАВАЯ КОЛОНКА 30% - ТРИ БЛОКА: ФОТО1 + ФОТО2 + КАРТА -->
+            <div class="right-column">
+                <!-- ✅ ПЕРВОЕ ФОТО -->
+                <div class="media-block">
+                    <img src="{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_shk29_photo1.webp') }}" 
+                         alt="Школа №29" class="school-photo">
+                    <div class="photo-caption">
+                        <i class="fas fa-camera me-1"></i>Школа №29
+                    </div>
+                </div>
+
+                <!-- ✅ ВТОРОЕ ФОТО -->
+                <div class="media-block">
+                    <img src="{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_shk29_photo2.jpg') }}" 
+                         alt="Школа №29" class="school-photo">
+                    <div class="photo-caption">
+                        <i class="fas fa-camera me-1"></i>Школа №29
+                    </div>
+                </div>
+
+                <!-- КАРТА (та же что в предыдущих файлах) -->
+                <div class="media-block map-block">
+                    <iframe id="map_81645722" frameborder="0" width="100%" height="600px" 
+                            src="https://makemap.2gis.ru/widget?data=eJy9lNtu4jAQht_FewkqY-fkIPWCOloOsljMVtplV71AxE3TBoKCSbdFvHvHDqA9XNGtiJAiZpyRv3_-mR0pq1RXOu3rcqlNlesN6f7cEfOy1qRLPuu52VaatMm6Kte6Mi6P6dwUNg-jjjJpvwdSqs24PxmOxS3IR1WPRQwyUSYWPsz4NRZI9WZR5WuTlyv8cDLotWBUTbOxeIbZQNVpX4J8ykB2bKzlYrGgIPFM3oMvyXO9SHxbaFEWZYUlPt0zmAPDyOtwlepfpEvh-OzbJGuAXtx1G5pJma-Mq4DQ-WpuHCxnVzEDCkE7CK7A830vvMPv85R0eRDv2_8jxusZYnRUbfrCHqxTPCi9aZaKEP9PH1-SaRaLCItNH4x4HiZPXHq91l9isI8Sg8YRO4jBIu8oBqVeeJYaEQL0hcwT93YKjC1YpOqviSpT0bFw2djmev-q8jsdME7vP4iOhQ1byCk7sXmcv4NtKPwMRo_WvTfIqZ5i61zXwBbIiapzx4wurtWmd305Rghi_0AZ8hNkSNlZkK_WzsIBIcjSWGvbZqKdZ7XaYhPr2MasGLaZ39UWHXwpSBrFTSd98Dg9QuIkn-fSPyFx50S2k0u3ezy1dbN7QXcC9w_-BA6n1jGf---bPetJnLnbZqvKAy22CpfNDfrSLhYGcnBRf9IAMRvK4NQ5jzG6v2uT5Xw9KTd5c4MdKeaGdJujQD0_9hmPeNAmhU07ybwIf0HEwggo3q4sl3g3HGeCJGVRfHvQuvjhoqba6v0bMjMXig" 
+                            sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation">
+                    </iframe>
+                    <div class="photo-caption">
+                        <i class="fas fa-map me-1"></i>Карта
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-    <div class="fixed-button-bar" id="fixedButtonBar">
-        <button onclick="location.href='{{ url_for('sch_nskob_nsk_cent') }}'">Вернуться на предыдущую страницу</button>
-        <button onclick="location.href='{{ url_for('domoi') }}'">Вернуться на главную</button>
-    </div>
+
+<!-- ФИКСИРОВАННАЯ ПАНЕЛЬ КНОПОК -->
+<div class="fixed-button-bar" id="fixedButtonBar">
+    <button onclick="location.href='{{ url_for('sch_nskob_nsk_cent') }}'">
+        ← Назад
+    </button>
+    <button onclick="location.href='{{ url_for('domoi') }}'">
+        🏠 Главная
+    </button>
+</div>
 {% endblock %}
