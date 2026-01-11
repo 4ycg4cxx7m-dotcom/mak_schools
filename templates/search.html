@@ -36,7 +36,7 @@
             padding-bottom: 140px;
         }
 
-        /* ЛЕВАЯ КНОПКА ПАНЕЛИ */
+        /* ✅ ЛЕВАЯ КНОПКА ПАНЕЛИ - ТОЧНО КАК В ГЛАВНОЙ */
         .toggle-panel-btn {
             position: fixed;
             top: 20px;
@@ -57,12 +57,20 @@
             justify-content: center;
         }
 
+        .toggle-panel-btn i {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toggle-panel-btn.active i {
+            transform: rotate(90deg);
+        }
+
         .toggle-panel-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 16px 48px rgba(0,98,204,0.4);
         }
 
-        /* БОКОВАЯ ПАНЕЛЬ */
+        /* ✅ БОКОВАЯ ПАНЕЛЬ - ТОЧНО КАК В ГЛАВНОЙ */
         .side-panel {
             position: fixed;
             top: 0;
@@ -105,6 +113,15 @@
             padding: 0 1.8rem 1.8rem;
         }
 
+        .panel-section h4 {
+            margin: 1.5rem 0 1rem 0;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
         .panel-btn {
             display: block;
             width: 100%;
@@ -130,7 +147,18 @@
             box-shadow: 0 4px 16px rgba(0,98,204,0.2);
         }
 
-        /* СЕЛЕКТОР ОБЛАСТИ ПОИСКА */
+        .support-btn {
+            border-color: #dee2e6;
+            color: #6c757d;
+        }
+
+        .support-btn:hover {
+            background: #6c757d;
+            color: white;
+            border-color: #6c757d;
+        }
+
+        /* остальные стили поиска без изменений */
         .search-scope-selector {
             display: flex;
             gap: 0.8rem;
@@ -159,14 +187,12 @@
             box-shadow: 0 4px 16px rgba(0,98,204,0.2);
         }
 
-        /* КОНТЕЙНЕР */
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
 
-        /* ЗАГОЛОВОК СТРАНИЦЫ */
         .page-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -189,7 +215,6 @@
             font-weight: 500;
         }
 
-        /* ПОЛЕ ПОИСКА */
         .search-section {
             max-width: 700px;
             margin: 0 auto 3rem;
@@ -239,7 +264,6 @@
             color: var(--primary);
         }
 
-        /* КНОПКА ПОИСКА */
         .search-btn {
             width: 100%;
             padding: 1.2rem;
@@ -259,7 +283,6 @@
             box-shadow: 0 8px 25px rgba(0,98,204,0.4);
         }
 
-        /* РЕЗУЛЬТАТЫ ПОИСКА */
         .results-section {
             max-width: 900px;
             margin: 0 auto;
@@ -318,7 +341,6 @@
             font-size: 1.2rem;
         }
 
-        /* ФИКСИРОВАННЫЕ КНОПКИ */
         .fixed-nav {
             position: fixed;
             bottom: 25px;
@@ -352,7 +374,6 @@
             gap: 0.5rem;
         }
 
-        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
         @media (max-width: 768px) {
             .toggle-panel-btn {
                 top: 15px;
@@ -393,22 +414,20 @@
     </style>
 </head>
 <body>
-    <!-- ЛЕВАЯ КНОПКА -->
+    <!-- ✅ ЛЕВАЯ КНОПКА - ТОЧНО КАК В ГЛАВНОЙ -->
     <button class="toggle-panel-btn" id="togglePanel" title="Меню">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- БОКОВАЯ ПАНЕЛЬ -->
+    <!-- ✅ ПОЛНАЯ БОКОВАЯ ПАНЕЛЬ - ТОЧНО КАК В ГЛАВНОЙ -->
     <div class="side-panel" id="sidePanel">
         <div class="panel-header">
-            <h3>
-                <i class="fas fa-th me-2"></i>Навигация
-            </h3>
+            <h3><i class="fas fa-th me-2"></i>Навигация</h3>
         </div>
         
         <div class="panel-section">
             <h4><i class="fas fa-search me-2"></i>Поиск</h4>
-            <a href="{{ url_for('search') }}" class="panel-btn">
+            <a href="{{ url_for('search') }}" class="panel-btn active">
                 <i class="fas fa-search me-3"></i>Поиск на сайте
             </a>
             <a href="{{ url_for('all_schools') }}" class="panel-btn">
@@ -473,7 +492,7 @@
     </div>
 
     <script>
-        // Боковая панель
+        // ✅ JAVASCRIPT ТОЧНО КАК В ГЛАВНОЙ
         function togglePanel() {
             const panel = document.getElementById('sidePanel');
             const btn = document.getElementById('togglePanel');
@@ -495,7 +514,7 @@
             }
         });
 
-        // Выбор области поиска
+        // Поиск (без изменений)
         let currentScope = 'all';
         document.querySelectorAll('.scope-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -505,17 +524,14 @@
             });
         });
 
-        // Поиск по кнопке
         document.getElementById('search-btn').addEventListener('click', performSearch);
         
-        // Поиск по Enter
         document.getElementById('search-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 performSearch();
             }
         });
 
-        // Поиск по input (автокомплит)
         document.getElementById('search-input').addEventListener('input', function() {
             let query = this.value.trim();
             const resultsDiv = document.getElementById('results');
