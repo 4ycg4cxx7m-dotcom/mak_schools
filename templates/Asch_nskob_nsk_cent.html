@@ -42,7 +42,7 @@
             padding: 1rem 1rem 140px 1rem;
         }
 
-        /* ЛЕВАЯ КНОПКА ПАНЕЛИ */
+        /* ЛЕВАЯ КНОПКА ПАНЕЛИ - ВСЕГДА ВИДИМА */
         .toggle-panel-btn {
             position: fixed;
             top: 20px;
@@ -64,13 +64,17 @@
             opacity: 1;
         }
 
-        .toggle-panel-btn.hidden {
-            opacity: 0;
-            pointer-events: none;
+        /* АНИМАЦИЯ ИКОНКИ */
+        .toggle-panel-btn i {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toggle-panel-btn.active i {
+            transform: rotate(90deg);
         }
 
         .toggle-panel-btn:hover {
-            transform: scale(1.05) rotate(90deg);
+            transform: scale(1.05);
             box-shadow: 0 16px 48px rgba(0,98,204,0.4);
         }
 
@@ -94,8 +98,9 @@
             left: 0;
         }
 
+        /* ИСПРАВЛЕННЫЙ HEADER - НАДПИСЬ ПРАВЕЕ */
         .panel-header {
-            padding: 1.8rem;
+            padding: 1.8rem 1.8rem 1.8rem 90px; /* Добавлен отступ слева 90px */
             background: var(--panel-header);
             border-bottom: 1px solid var(--border);
             position: sticky;
@@ -110,6 +115,7 @@
             font-weight: 600;
             display: flex;
             align-items: center;
+            padding-left: 10px; /* Дополнительный отступ для надписи */
         }
 
         .panel-section {
@@ -344,6 +350,10 @@
                 left: -100%;
             }
             
+            .panel-header {
+                padding: 1.8rem 1.8rem 1.8rem 80px; /* Меньше отступ на мобильных */
+            }
+            
             .container {
                 padding: 1rem;
                 padding-bottom: 160px;
@@ -479,14 +489,18 @@
         function togglePanel() {
             const panel = document.getElementById('sidePanel');
             const btn = document.getElementById('togglePanel');
-            const isActive = panel.classList.toggle('active');
             
-            btn.classList.toggle('hidden', isActive);
-            btn.innerHTML = isActive ? '' : '<i class="fas fa-bars"></i>';
+            // Переключаем активное состояние панели и кнопки
+            const isActive = panel.classList.toggle('active');
+            btn.classList.toggle('active', isActive);
         }
 
-        document.getElementById('togglePanel').addEventListener('click', togglePanel);
+        document.getElementById('togglePanel').addEventListener('click', function(e) {
+            e.stopPropagation(); // Предотвращаем закрытие при клике на кнопку
+            togglePanel();
+        });
 
+        // Закрытие панели при клике вне её и кнопки
         document.addEventListener('click', function(event) {
             const panel = document.getElementById('sidePanel');
             const btn = document.getElementById('togglePanel');
