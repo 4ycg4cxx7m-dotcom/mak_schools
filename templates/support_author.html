@@ -1,82 +1,162 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Мы ответим на ваш вопрос, для этого напишите нам</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо за поддержку проекта!</title>
     <style>
-        body {
+        * {
             margin: 0;
-            background: linear-gradient(135deg, #4a90e2, #6699cc);
-            height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-            display: flex;
-            justify-content: center; /* центр по горизонтали */
-            align-items: flex-start; /* вертикально сверху */
-
-            padding-top: 10vh; /* отступ сверху */
+            padding: 0;
             box-sizing: border-box;
         }
 
+        body {
+            background: linear-gradient(135deg, #4a90e2, #6699cc);
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
         .intro-container {
+            width: min(95vw, 95vh, 600px);
+            height: min(95vw, 95vh, 600px);
+            aspect-ratio: 1/1;
             background: linear-gradient(135deg, #0069d9, #004085);
             color: white;
-            padding: 4rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 64, 128, 0.4);
+            padding: clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 64, 128, 0.6);
             text-align: center;
-            width: 60vw;
-            max-width: 700px;
-            height: auto;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            gap: 0.5rem;
+        }
+
+        .content-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.8rem;
         }
 
         .intro-container h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
             font-weight: 700;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
         }
 
-        .intro-container h3,
+        .intro-container h3 {
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            font-weight: 600;
+            line-height: 1.4;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
         .intro-container h4 {
-            font-size: 1.25rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-weight: 500;
+            line-height: 1.5;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
 
         .btn-custom {
-            background-color: #3399ff;
+            background: linear-gradient(135deg, #3399ff, #2673cc);
             color: #fff;
             border: none;
-            padding: 0.75rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(51,153,255,0.6);
+            padding: clamp(1.2rem, 3.5vw, 1.5rem) 4rem;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+            font-weight: 700;
+            border-radius: 50px;
+            box-shadow: 0 12px 35px rgba(51,153,255,0.8);
             cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
             display: inline-block;
-            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
         }
+
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
         .btn-custom:hover {
-            background-color: #2673cc;
-            box-shadow: 0 6px 20px rgba(38,115,204,0.8);
-            text-decoration: none;
+            transform: translateY(-4px);
+            box-shadow: 0 16px 45px rgba(38,115,204,0.95);
             color: white;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0 !important;
+                margin: 0 !important;
+                align-items: stretch !important;
+            }
+            
+            .intro-container {
+                width: 100vw !important;
+                height: 100vh !important;
+                max-width: 100vw !important;
+                max-height: 100vh !important;
+                min-height: 100vh !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 1.2rem !important;
+                padding-bottom: 2.5rem !important;
+                justify-content: space-between !important;
+                gap: 0.3rem !important;
+            }
+            
+            .intro-container h1 {
+                font-size: clamp(1.5rem, 7vw, 2rem);
+            }
+            
+            .btn-custom {
+                padding: 1.1rem 3rem;
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        @media (min-width: 481px) {
+            .intro-container {
+                width: min(600px, 95vh);
+                height: min(600px, 95vh);
+                padding: clamp(2rem, 5vw, 3rem);
+            }
         }
     </style>
 </head>
 <body>
     <div class="intro-container">
-        <h1>Поддержите развитие нашего проекта!</h1>
-        <h3>Надеюсь, эта платформа будет вам полезна и поможет вам в ваших рутинных задачах.</h3>
-        <h4>Можете поддержать развитие нашего проекта, перевести деньги на карту (номер карты) банка (название банка).</h4>
-        <a href="{{ url_for('home') }}" class="btn-custom">Вернуться на главный экран</a>
+        <div class="content-section">
+            <h1>Спасибо за интерес к проекту!</h1>
+            <h3>Надеемся, наш сервис поможет вам найти идеальную школу для ваших целей.</h3>
+            <h4>Любая поддержка помогает нам развиваться и становиться лучше для вас!</h4>
+        </div>
+        <a href="{{ url_for('home') }}" class="btn-custom">Вернуться на главную</a>
     </div>
 </body>
 </html>
