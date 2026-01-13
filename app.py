@@ -102,7 +102,7 @@ def domoi():
 @app.route('/sch_nskob')
 def sch_nskob():
     return render_template('Asch_nskob.html')
-
+ 
 # Списки файлов поиска (ИСПРАВЛЕНО)
 search_all_files = [
     'dalshe.html', 'home.html', 'support_author.html', 'Политика_Конфиденциальности.html',
@@ -110,39 +110,40 @@ search_all_files = [
 ]
 
 search_nsk_files = [
-    'Asch_nskob.html', 'Asch_nskob_nsk.html', 'Asch_nskob_nsk_cent.html', 
+    'Asch_nskob_nsk_cent.html', 
     'Asch_nskob_nsk_cent_gim1.html', 'Asch_nskob_nsk_cent_lic22.html', 
+    'Asch_nskob_nsk_cent_gim13.html','Asch_nskob_nsk_cent_licEkl.html', 'Asch_nskob_nsk_cent_lic12.html',
     'Asch_nskob_nsk_cent_sch29.html', 'Asch_nskob_nsk_cent_sch54.html',
-    'Asch_nskob_nsk_cent_sch4.html', 'Asch_nskob_nsk_cent_sch156.html', 'Asch_nskob_nsk_dzer.html', 
-    'Asch_nskob_nsk_dzer_sch1.html', 'Asch_nskob_nsk_dzer_sch2.html', 'Asch_nskob_nsk_cent_sch156.html'
+    'Asch_nskob_nsk_cent_sch4.html', 'Asch_nskob_nsk_cent_sch156.html',  
+    'Asch_nskob_nsk_dzer_sch1.html', 'Asch_nskob_nsk_dzer_sch2.html', 
 ]
 
-# Маппинг шаблонов → маршруты (ИСПРАВЛЕНО и дополнено)
-def get_route_for_template(template_name):
+# Маппинг: filename → (публичное название, маршрут)
+def get_search_result_info(filename):
     mapping = {
-        'dalshe.html': url_for('dalshe'),
-        'home.html': url_for('home'),
-        'support_author.html': url_for('support_author'),
-        'Политика_Конфиденциальности.html': url_for('Политика_Конфиденциальности'),
-        'all_schools.html': url_for('all_schools'),
-        'Информация_о_сайте.html': url_for('Информация_о_сайте'),
-        'support.html': url_for('support'),
-        'Asch_nskob_nsk.html': url_for('Novosibirsk'),
-        'Asch_nskob_nsk_cent.html': url_for('sch_nskob_nsk_cent'),
-        'Asch_nskob_nsk_cent_gim1.html': url_for('gimn1nsk'),
-        'Asch_nskob_nsk_cent_lic22.html': url_for('Asch_nskob_nsk_cent_lic12'),
-        'Asch_nskob_nsk_cent_sch29.html': url_for('Asch_nskob_nsk_cent_sch29'),
-        'Asch_nskob_nsk_cent_sch54.html': url_for('Asch_nskob_nsk_cent_sch54'),
-        'Asch_nskob_nsk_cent_sch4.html': url_for('Asch_nskob_nsk_cent_sch4'),
-        '196_mbou_sosh_nsk.html': url_for('Asch_nskob_nsk_cent_sch156'),
-        'Asch_nskob_nsk_dzer.html': url_for('sch_nskob_nsk_dzer'),
-        'Asch_nskob_nsk_dzer_sch1.html': url_for('sch_nskob_nsk_dzer_sch1'),
-        'Asch_nskob_nsk_dzer_sch2.html': url_for('sch_nskob_nsk_dzer_sch2'),
-        'Asch_nskob.html': url_for('sch_nskob')
+        # Общие страницы
+        'dalshe.html': ('Дальше', url_for('dalshe')),
+        'home.html': ('Главная', url_for('home')),
+        'support_author.html': ('Поддержка автора', url_for('support_author')),
+        'Политика_Конфиденциальности.html': ('Политика конфиденциальности', url_for('Политика_Конфиденциальности')),
+        'all_schools.html': ('Все школы', url_for('all_schools')),
+        'Информация_о_сайте.html': ('Информация о сайте', url_for('Информация_о_сайте')),
+        'support.html': ('Поддержка', url_for('support')),
+        
+        # Школы Новосибирска
+        'Asch_nskob_nsk_cent.html': ('Центральный район Новосибирска', url_for('sch_nskob_nsk_cent')),
+        'Asch_nskob_nsk_cent_gim1.html': ('Гимназия №1', url_for('gimn1nsk')),
+        'Asch_nskob_nsk_cent_lic22.html': ('Лицей №22', url_for('Asch_nskob_nsk_cent_lic12')),
+        'Asch_nskob_nsk_cent_sch29.html': ('Школа №29', url_for('Asch_nskob_nsk_cent_sch29')),
+        'Asch_nskob_nsk_cent_sch54.html': ('Школа №54', url_for('Asch_nskob_nsk_cent_sch54')),
+        'Asch_nskob_nsk_cent_sch4.html': ('Школа №4', url_for('Asch_nskob_nsk_cent_sch4')),
+        'Asch_nskob_nsk_cent_sch156.html': ('Школа №156', url_for('Asch_nskob_nsk_cent_sch156')),
+        'Asch_nskob_nsk_dzer_sch1.html': ('Дзержинский р-н, Школа №1', url_for('sch_nskob_nsk_dzer_sch1')),
+        'Asch_nskob_nsk_dzer_sch2.html': ('Дзержинский р-н, Школа №2', url_for('sch_nskob_nsk_dzer_sch2')),
     }
-    return mapping.get(template_name, '#')
+    return mapping.get(filename, (os.path.splitext(filename)[0].replace('_', ' ').title(), '#'))
 
-# API для динамического поиска
+# API для динамического поиска (ИСПРАВЛЕНО)
 @app.route('/api/search', methods=['GET'])
 def api_search():
     query = request.args.get('q', '').lower().strip()
@@ -165,9 +166,10 @@ def api_search():
             with open(f'templates/{filename}', 'r', encoding='utf-8') as f:
                 content = f.read().lower()
                 if query in content:
+                    title, url = get_search_result_info(filename)
                     results.append({
-                        'title': os.path.splitext(filename)[0].replace('_', ' ').title(),
-                        'url': get_route_for_template(filename)
+                        'title': title,
+                        'url': url
                     })
         except FileNotFoundError:
             pass
