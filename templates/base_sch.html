@@ -3,12 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Школы рядом!{% endblock %}</title>
+    
+    <!-- SEO Мета-теги -->
+    <title>{% block title %}Гимназия №1 Новосибирск | Школы рядом!{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Гимназия №1 Новосибирск: углубленные классы математика, физика, IT. Легенда образования с 1936 года. Конкуренция 3-5 чел/место.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}гимназия новосибирск, первая гимназия, поступление гимназия 1, школы центра нск, олимпиады новосибирск{% endblock %}">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:title" content="{% block og_title %}Гимназия №1 Новосибирск{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Легенда новосибирского образования с 1936. Углубленные классы, IT-куб, победы на олимпиадах{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp', _external=True) }}{% endblock %}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Гимназия №1 Новосибирск{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}120+ лет лидерства в образовании{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp', _external=True) }}{% endblock %}">
+    
+    <!-- Дополнительные SEO -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.url }}">
     
     <!-- Bootstrap 5.3.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Микроразметка Schema.org -->
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "School",
+        "name": "Гимназия №1",
+        "alternateName": "Первая Гимназия Новосибирск",
+        "url": "https://gmsib.ru/",
+        "address": [
+            {
+                "@type": "PostalAddress",
+                "streetAddress": "Красный проспект, 48",
+                "addressLocality": "Новосибирск",
+                "addressCountry": "RU",
+                "postalCode": "630099"
+            },
+            {
+                "@type": "PostalAddress", 
+                "streetAddress": "Потанинская ул., 9",
+                "addressLocality": "Новосибирск",
+                "addressCountry": "RU",
+                "postalCode": "630006"
+            }
+        ],
+        "telephone": "+7 (383) 218-65-65",
+        "description": "Легенда новосибирского образования. Основана в 1936 году. Углубленные классы математика, физика, IT.",
+        "educationalProgram": [
+            "Углубленное изучение математики",
+            "Углубленное изучение физики", 
+            "IT-куб и Microsoft IT Academy"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "124"
+        }
+    }
+    </script>
+    {% endblock %}
     
     <style>
         :root {
@@ -19,17 +81,15 @@
             --panel-bg: #fff;
             --border-color: #0062cc;
             --text-dark: #4C4F54;
-            --footer-bg: #cce4fb;
-            --footer-text: #003366;
-            --footer-border: #0055aa;
             --shadow-blue: 0 4px 12px rgba(0, 98, 204, 0.3);
             --shadow-blue-hover: 0 6px 16px rgba(0, 74, 153, 0.6);
             --shadow-panel: 0 12px 32px rgba(0, 98, 204, 0.18);
+            --info-card-bg: rgba(0, 98, 204, 0.02);
+            --info-card-border: rgba(0, 98, 204, 0.15);
+            --uniform-gap: 1.5rem;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
@@ -38,8 +98,41 @@
             color: #333;
             line-height: 1.6;
             margin: 0;
-            padding-bottom: 140px;
+            padding-bottom: 100px;
             overflow-x: hidden;
+        }
+
+        /* Skip Link для доступности */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #0062cc;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .skip-link:focus { top: 6px; }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        button:focus, a:focus, input:focus {
+            outline: 3px solid #0062cc;
+            outline-offset: 2px;
         }
 
         .main-container {
@@ -60,22 +153,18 @@
         .two-column-layout {
             width: 100%;
             display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: var(--uniform-gap);
+            margin-top: var(--uniform-gap);
             align-items: flex-start;
         }
 
-        .left-column {
-            flex: 0 0 70%;
-            max-width: 70%;
-        }
-
-        .right-column {
+        .left-column { flex: 0 0 70%; max-width: 70%; }
+        .right-column { 
             flex: 0 0 28%;
             max-width: 28%;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: var(--uniform-gap);
         }
 
         .border-panel {
@@ -95,6 +184,18 @@
             box-shadow: var(--shadow-panel);
         }
 
+        .info-card {
+            background-color: var(--info-card-bg) !important;
+            border: 1px solid var(--info-card-border) !important;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            background-color: rgba(0, 98, 204, 0.05) !important;
+            border-color: rgba(0, 98, 204, 0.25) !important;
+            transform: translateY(-2px);
+        }
+
         .media-block {
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -105,11 +206,24 @@
             background-color: var(--panel-bg);
             height: clamp(300px, 35vh, 400px);
             flex-shrink: 0;
+            width: 100%;
+            margin-bottom: var(--uniform-gap);
         }
 
         .media-block:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-panel);
+        }
+
+        .achievement-counter {
+            display: inline-block;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #0062cc;
+            background: linear-gradient(135deg, #0062cc, #00a8e8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .school-photo {
@@ -133,54 +247,10 @@
             font-weight: 500;
         }
 
-        .addresses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .address-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.2s ease;
-            height: 100%;
-        }
-
-        .address-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-panel);
-        }
-
-        .btn-map {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: none;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .btn-map:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-blue-hover);
-            color: white;
-            text-decoration: none;
-        }
-
         .title-with-spacing {
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
-            margin-bottom: 3rem !important;
+            margin-bottom: var(--uniform-gap) !important;
             letter-spacing: -0.02em;
             text-align: center;
             color: #333;
@@ -204,93 +274,99 @@
             border-radius: 2px;
         }
 
-/* ✅ КНОПКИ ЧУТЬ ПОШИРЕ (минимальное изменение) */
-.fixed-button-bar {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1.2rem; /* +0.2rem */
-    z-index: 1050;
-    transition: all 0.3s ease;
-    width: 85%; /* Было 100%, теперь 85% */
-    max-width: 420px; /* Было ~400px, теперь 420px */
-    padding: 0 1rem;
-    box-sizing: border-box;
-}
+        h4 {
+            color: var(--text-dark);
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
 
-/* ✅ КНОПКИ ЧУТЬ ПОШИРЕ И МЕНЬШЕ В ВЫСОТУ */
-.fixed-button-bar button {
-    flex: 1;
-    padding: 0.9rem 1.7rem; /* Меньше padding по высоте: 0.9rem вместо 1.1rem */
-    font-weight: 600;
-    font-size: 0.92rem;
-    border-radius: 12px;
-    text-align: center;
-    user-select: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-blue);
-    border: none;
-    color: white;
-    background: var(--primary-gradient);
-    font-family: 'Inter', Arial, sans-serif;
-    line-height: 1.3; /* Компактная высота строк */
-}
-
-
-.fixed-button-bar button:hover {
-    background: var(--primary-dark);
-    box-shadow: var(--shadow-blue-hover);
-    transform: translateY(-1px);
-}
-
-
-        .footer {
-            position: fixed;
-            bottom: 0;
+        h4::after {
+            content: '';
+            position: absolute;
             left: 0;
-            width: 100%;
-            padding: 1.2rem 0;
-            text-align: center;
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            border-top: 1px solid var(--footer-border);
-            z-index: 1100;
-            box-shadow: 0 -1px 8px rgba(0, 85, 170, 0.3);
-            font-size: 0.9rem;
-            height: auto;
-            line-height: 1.4;
+            bottom: 0;
+            width: 45px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+
+        .fixed-button-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.4s ease;
-            border-radius: 12px 12px 0 0;
+            gap: 1rem;
+            z-index: 1050;
+            transition: all 0.3s ease;
+            width: 80%;
+            max-width: 380px;
+            padding: 0 1rem;
             box-sizing: border-box;
         }
 
-        .footer.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .footer a {
-            color: var(--footer-text);
-            text-decoration: none;
+        .fixed-button-bar button {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
             font-weight: 600;
-            margin: 0 0.5rem;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: var(--shadow-blue);
+            border: none;
+            color: white;
+            background: var(--primary-gradient);
+            font-family: 'Inter', Arial, sans-serif;
+            line-height: 1.3;
         }
 
-        .footer a:hover {
-            color: #001f44;
-            transform: scale(1.05);
+        .fixed-button-bar button:hover {
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-blue-hover);
+            transform: translateY(-1px);
         }
 
-        /* Адаптивность */
+        .mobile-nav {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .mobile-nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 24px;
+            padding: 0;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav button:hover,
+        .mobile-nav button:active {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-blue-hover);
+        }
+
+        /* АДАПТИВНОСТЬ */
         @media (max-width: 1200px) {
             .main-container { width: 98%; }
         }
@@ -298,62 +374,72 @@
         @media (max-width: 992px) {
             .two-column-layout {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: var(--uniform-gap);
             }
             .left-column, .right-column {
                 flex: none;
                 max-width: 100%;
             }
             .border-panel { 
-                margin: 1rem 0; 
+                margin: var(--uniform-gap) 0; 
                 padding: 1.5rem; 
             }
             .media-block { 
                 height: clamp(280px, 30vh, 350px); 
+                width: 100% !important;
+                margin-bottom: var(--uniform-gap);
             }
             .fixed-button-bar { 
                 flex-direction: column;
-                width: 90%;
-                max-width: 320px;
+                width: 85%;
+                max-width: 300px;
                 gap: 0.75rem;
             }
         }
 
         @media (max-width: 768px) {
-            body { padding-bottom: 160px; }
-            .content-wrapper { padding-top: 2rem; }
-            .title-with-spacing { margin-bottom: 2rem; }
-            .media-block { height: clamp(250px, 28vh, 300px); }
-            .addresses-grid { grid-template-columns: 1fr; }
+            :root { --uniform-gap: 1rem; }
+            body { 
+                padding-top: 10px !important; 
+                padding-bottom: 90px; 
+            }
+            .content-wrapper { padding-top: 1rem !important; margin-top: 1rem !important; }
+            .title-with-spacing { margin-top: 1rem !important; margin-bottom: var(--uniform-gap) !important; padding-top: 0.5rem !important; }
+            .main-container { padding-top: 1rem !important; margin-top: 0.5rem !important; }
+            .two-column-layout { margin-top: var(--uniform-gap) !important; gap: var(--uniform-gap) !important; }
+            .border-panel, .media-block { margin: var(--uniform-gap) 0 !important; }
+            .right-column { gap: var(--uniform-gap) !important; width: 100% !important; max-width: 100% !important; }
+            .mobile-nav { display: flex !important; }
+            .fixed-button-bar { display: none !important; }
+            .media-block { height: clamp(280px, 35vh, 350px) !important; width: 100% !important; max-width: 100% !important; margin-bottom: var(--uniform-gap) !important; }
+            .school-photo { width: 100% !important; height: 100% !important; object-fit: cover !important; }
         }
 
         @media (max-width: 576px) {
-            .media-block { height: clamp(220px, 25vh, 280px); }
-            .fixed-button-bar button { padding: 1rem; }
-            .border-panel { padding: 1.25rem; }
+            :root { --uniform-gap: 0.75rem; }
+            body { padding-top: 10px !important; padding-bottom: 90px; }
+            .content-wrapper { padding-top: 1rem !important; }
+            .media-block { height: clamp(240px, 30vh, 280px); }
+            .border-panel { padding: 1.1rem; }
+            .mobile-nav button { width: 42px; height: 42px; font-size: 20px; }
+            .right-column { gap: var(--uniform-gap) !important; width: 100% !important; }
+            .media-block { width: 100% !important; max-width: 100% !important; border-radius: 12px; margin-bottom: var(--uniform-gap) !important; }
+            h4 { font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.6rem; }
+            .school-photo { border-radius: 12px 12px 0 0; }
         }
 
-        /* iOS Safe Areas */
         @supports (padding: max(0px)) {
-            body {
-                padding-bottom: max(140px, env(safe-area-inset-bottom));
-            }
-            .fixed-button-bar {
-                bottom: max(20px, env(safe-area-inset-bottom));
-            }
+            body { padding-bottom: max(90px, env(safe-area-inset-bottom)); }
+            .fixed-button-bar { bottom: max(20px, env(safe-area-inset-bottom)); }
+            .mobile-nav { bottom: max(25px, env(safe-area-inset-bottom)); }
         }
     </style>
 </head>
 <body>
+    <!-- Skip Link для доступности -->
+    <a href="#main-content" class="skip-link">Перейти к основному контенту</a>
+    
     {% block content %}{% endblock %}
-
-    <footer class="footer" id="policyPanel">
-        <div>
-            <a href="{{ url_for('support_author') }}">Поддержите наш проект!</a>
-            <span style="margin: 0 10px;">|</span>
-            <a href="{{ url_for('Политика_Конфиденциальности') }}">Политика Конфиденциальности</a>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -361,26 +447,9 @@
             'use strict';
             
             const btnBar = document.getElementById('fixedButtonBar');
-            const policyPanel = document.getElementById('policyPanel');
 
-            function isScrolledToBottom(tolerancePx = 10) {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const windowHeight = window.innerHeight;
-                const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-                return scrollTop + windowHeight >= docHeight - tolerancePx;
-            }
-
-            const debouncedUpdate = debounce(updatePanels, 16);
-
-            function updatePanels() {
-                if (isScrolledToBottom()) {
-                    policyPanel.classList.add('visible');
-                    const policyHeight = policyPanel.offsetHeight;
-                    if (btnBar) btnBar.style.bottom = (policyHeight + 20) + 'px';
-                } else {
-                    policyPanel.classList.remove('visible');
-                    if (btnBar) btnBar.style.bottom = '20px';
-                }
+            function updateButtonPosition() {
+                if (btnBar) btnBar.style.bottom = '20px';
             }
 
             function debounce(func, wait) {
@@ -395,9 +464,35 @@
                 };
             }
 
-            window.addEventListener('scroll', debouncedUpdate, { passive: true });
-            window.addEventListener('resize', debouncedUpdate);
-            window.addEventListener('load', updatePanels);
+            function animateCounter() {
+                const counters = document.querySelectorAll('.achievement-counter span');
+                counters.forEach(counter => {
+                    let start = 0;
+                    const end = parseInt(counter.textContent) || 90;
+                    const duration = 2500;
+                    const stepTime = 16;
+                    const steps = duration / stepTime;
+                    const step = end / steps;
+                    let currentStep = 0;
+
+                    const timer = setInterval(() => {
+                        currentStep++;
+                        start += step;
+                        if (start >= end || currentStep >= steps) {
+                            counter.textContent = end;
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(start);
+                        }
+                    }, stepTime);
+                });
+            }
+
+            window.addEventListener('resize', debounce(updateButtonPosition, 16));
+            window.addEventListener('load', () => {
+                updateButtonPosition();
+                setTimeout(animateCounter, 500);
+            });
         })();
     </script>
 </body>
