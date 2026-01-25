@@ -102,7 +102,8 @@ def domoi():
 @app.route('/sch_nskob')
 def sch_nskob():
     return render_template('Asch_nskob.html')
- 
+
+# Списки файлов поиска (ИСПРАВЛЕНО)
 # Списки файлов поиска (ИСПРАВЛЕНО)
 search_all_files = [
     'dalshe.html', 'home.html', 'support_author.html', 'Политика_Конфиденциальности.html',
@@ -115,31 +116,32 @@ search_nsk_files = [
     'Asch_nskob_nsk_cent_gim13.html','Asch_nskob_nsk_cent_licEkl.html', 'Asch_nskob_nsk_cent_lic12.html',
     'Asch_nskob_nsk_cent_sch29.html', 'Asch_nskob_nsk_cent_sch54.html',
     'Asch_nskob_nsk_cent_sch4.html', 'Asch_nskob_nsk_cent_sch156.html',  
-    'Asch_nskob_nsk_dzer_sch1.html', 'Asch_nskob_nsk_dzer_sch2.html', 
+    
 ]
-
+# 'Asch_nskob_nsk_dzer_sch1.html', 'Asch_nskob_nsk_dzer_sch2.html', 
+# Маппинг: filename → (публичное название, маршрут)
 # Маппинг: filename → (публичное название, маршрут)
 def get_search_result_info(filename):
     mapping = {
         # Общие страницы
-        'dalshe.html': ('Дальше', url_for('dalshe')),
         'home.html': ('Главная', url_for('home')),
         'support_author.html': ('Поддержка автора', url_for('support_author')),
         'Политика_Конфиденциальности.html': ('Политика конфиденциальности', url_for('Политика_Конфиденциальности')),
         'all_schools.html': ('Все школы', url_for('all_schools')),
         'Информация_о_сайте.html': ('Информация о сайте', url_for('Информация_о_сайте')),
         'support.html': ('Поддержка', url_for('support')),
-        
-        # Школы Новосибирска
-        'Asch_nskob_nsk_cent.html': ('Центральный район Новосибирска', url_for('sch_nskob_nsk_cent')),
+        ### ШКОЛЫ НОВОСИБИРСКА
         'Asch_nskob_nsk_cent_gim1.html': ('Гимназия №1', url_for('gimn1nsk')),
-        'Asch_nskob_nsk_cent_lic22.html': ('Лицей №22', url_for('Asch_nskob_nsk_cent_lic12')),
+        'Asch_nskob_nsk_cent_lic22.html': ('Лицей №22 «Надежда Сибири»', url_for('nslic220nsk')),
+        'Asch_nskob_nsk_cent_gim13.html': ('Гимназия №13 им. Э.А. Быкова', url_for('Asch_nskob_nsk_cent_gim13')),
+        'Asch_nskob_nsk_cent_licEkl.html': ('Экономический лицей', url_for('Asch_nskob_nsk_cent_licEkl')),
+        'Asch_nskob_nsk_cent_lic12.html': ('Лицей №12', url_for('Asch_nskob_nsk_cent_lic12')),
         'Asch_nskob_nsk_cent_sch29.html': ('Школа №29', url_for('Asch_nskob_nsk_cent_sch29')),
         'Asch_nskob_nsk_cent_sch54.html': ('Школа №54', url_for('Asch_nskob_nsk_cent_sch54')),
         'Asch_nskob_nsk_cent_sch4.html': ('Школа №4', url_for('Asch_nskob_nsk_cent_sch4')),
         'Asch_nskob_nsk_cent_sch156.html': ('Школа №156', url_for('Asch_nskob_nsk_cent_sch156')),
-        'Asch_nskob_nsk_dzer_sch1.html': ('Дзержинский р-н, Школа №1', url_for('sch_nskob_nsk_dzer_sch1')),
-        'Asch_nskob_nsk_dzer_sch2.html': ('Дзержинский р-н, Школа №2', url_for('sch_nskob_nsk_dzer_sch2')),
+        
+
     }
     return mapping.get(filename, (os.path.splitext(filename)[0].replace('_', ' ').title(), '#'))
 
@@ -174,7 +176,7 @@ def api_search():
         except FileNotFoundError:
             pass
     
-    return jsonify(results[:10])  # максимум 10 результатов
+    return jsonify(results[:1000000])  # максимум 10 результатов
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
