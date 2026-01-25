@@ -1,0 +1,204 @@
+<!-- Lich_nskob_nsk_cent_lich22.html -->
+{% extends "base_sch.html" %}
+
+{% block title %}Лицей №22 Новосибирск | Надежда Сибири, углубленные классы{% endblock %}
+
+{% block meta_description %}Лицей №22 Новосибирск (Надежда Сибири): углубленные классы математика, физика, информатика. Современное образование, высокие результаты ЕГЭ. Корпуса: Советская 95, Чаплыгина 79{% endblock %}
+
+{% block meta_keywords %}лицей №22 новосибирск, надежда сибири лицей, поступление лицей 22, школы советская новосибирск, лицей центр нск, олимпиады новосибирск, углубленные классы нск{% endblock %}
+
+{% block og_title %}Лицей №22 Новосибирск — Надежда Сибири{% endblock %}
+{% block og_description %}Основан в 1962 году. Углубленные классы, центр цифровой грамотности, ежегодные победы на олимпиадах. Конкуренция 4-6 чел/место{% endblock %}
+{% block og_image %}{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp', _external=True) }}{% endblock %}
+
+{% block twitter_title %}Лицей №22 Новосибирск{% endblock %}
+{% block twitter_description %}60+ лет лидерства в образовании Новосибирска{% endblock %}
+{% block twitter_image %}{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp', _external=True) }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": ["School", "EducationalOrganization"],
+    "name": "Муниципальное бюджетное общеобразовательное учреждение \"Лицей №22\"",
+    "alternateName": ["Лицей №22 Новосибирск", "Надежда Сибири"],
+    "url": "https://lich22-nsk.ru/",
+    "telephone": "+7 (383) 222-45-67",
+    "address": [
+        {
+            "@type": "PostalAddress",
+            "streetAddress": "Советская улица, 95",
+            "addressLocality": "Новосибирск",
+            "addressRegion": "Новосибирская область",
+            "postalCode": "630091",
+            "addressCountry": "RU"
+        },
+        {
+            "@type": "PostalAddress",
+            "streetAddress": "Чаплыгина улица, 79",
+            "addressLocality": "Новосибирск", 
+            "addressRegion": "Новосибирская область",
+            "postalCode": "630099",
+            "addressCountry": "RU"
+        }
+    ],
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 55.034761,
+        "longitude": 82.913816
+    },
+    "description": "Лицей №22 Надежда Сибири — лидер образования Новосибирска с 1962 года. Углубленное изучение математики, физики, информатики. Высокие результаты ЕГЭ и олимпиад.",
+    "educationalProgram": [
+        "Углубленное изучение математики",
+        "Углубленное изучение физики",
+        "Информатика и программирование",
+        "Подготовка к олимпиадам и ЕГЭ"
+    ],
+    "openingHours": "Пн-Пт 08:00-15:30",
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "bestRating": "5",
+        "reviewCount": "98"
+    },
+    "areaServed": ["Центральный округ Новосибирск", "Октябрьский район"],
+    "sameAs": ["https://lich22-nsk.ru/"]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <!-- ЗАГОЛОВОК НАД КОЛОНКАМИ -->
+    <div class="content-wrapper">
+        <h1 class="text-center title-with-spacing mb-5" role="banner" id="main-content">Лицей №22<br><small class="text-muted fw-normal">Надежда Сибири</small></h1>
+        
+        <!-- ДВЕ КОЛОНКИ НА ОДНОМ УРОВНЕ -->
+        <div class="two-column-layout">
+            <!-- ЛЕВАЯ КОЛОНКА 70% - ОПИСАНИЕ -->
+            <div class="left-column">
+                <div class="border-panel school-description">
+                    <h2 class="sr-only">Об образовательной организации</h2>
+                    
+                    <h3>Об образовательной организации:</h3>
+                    
+                    <p><strong>🏛️ Надежда Сибири</strong> <span class="achievement-counter"><span>60</span>+ лет лидерства</span></p>
+                    <p>Основан в <strong>1962 году</strong>. С 1990-х — статус лицея. <span class="achievement-counter"><span>95</span></span>% выпускников поступают в вузы с первого раза! 🌟</p>
+                    
+                    <h4>🏠 Корпуса лицея</h4>
+                    <ul class="list-unstyled mb-3">
+                        <li><strong>📍 Корпус №1</strong> — Советская улица, 95<br>
+                            <small class="text-muted">Современное здание • Капремонт 2022</small></li>
+                        <li><strong>📍 Корпус №2</strong> — Чаплыгина, 79<br>
+                            <small class="text-muted">Ремонт 2020 • Новые лаборатории</small></li>
+                    </ul>
+
+                    <h4>⭐ Почему выбирают Лицей №22</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li>🎓 Углубленные классы (математика, физика, IT)</li>
+                                <li>💻 Центр цифровой грамотности</li>
+                                <li>🏆 Победы на Всероссийских олимпиадах</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li>🤝 Партнерство НГУ, НГТУ</li>
+                                <li>🔬 Физмат лаборатории мирового уровня</li>
+                                <li>📚 Электронная библиотека + coworking</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>⚠️ Поступление</h4>
+                    <p><strong>Конкуренция 4-6 чел/место</strong>. Вступительные испытания с 5-го и 10-го классов. Индивидуальная подготовка обязательна!</p>
+                    
+                    <h4>🏘️ Приписанные дома (выборка)</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <strong>Центр:</strong><br>
+                            <small>Советская 80-110 • Горького 75-95<br>
+                            Ленина 45-60 • Коммунистическая 20-35</small>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>ЖД район:</strong><br>
+                            <small>Чаплыгина 70-90 • Разъездная 15-25<br>
+                            Вокзальная магистраль 5-12</small>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Адреса корпусов:</strong></p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-6">
+                            <div class="card h-100 info-card border-0 shadow-sm p-3" role="article" aria-labelledby="building-1">
+                                <h5 id="building-1" class="card-title mb-2">1. Корпус на Советской</h5>
+                                <p class="card-text mb-3">г. Новосибирск, ул. Советская, 95</p>
+                                <a href="https://2gis.ru/novosibirsk/branches/141274359273574/firm/141265769340233/82.913816%2C55.034761?m=82.913816%2C55.034761%2F14.58" target="_blank" rel="noopener noreferrer" 
+                                   class="btn btn-outline-primary btn-sm w-100" aria-label="Открыть адрес Советская 95 в 2ГИС">
+                                    <i class="fas fa-map-marker-alt me-1" aria-hidden="true"></i>Открыть в 2ГИС
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card h-100 info-card border-0 shadow-sm p-3" role="article" aria-labelledby="building-2">
+                                <h5 id="building-2" class="card-title mb-2">2. Корпус на Чаплыгина</h5>
+                                <p class="card-text mb-3">г. Новосибирск, ул. Чаплыгина, 79</p>
+                                <a href="https://2gis.ru/novosibirsk/branches/141274359273574/firm/141265769340231?m=82.906506%2C55.02516%2F14.58" target="_blank" rel="noopener noreferrer" 
+                                   class="btn btn-outline-primary btn-sm w-100" aria-label="Открыть адрес Чаплыгина 79 в 2ГИС">
+                                    <i class="fas fa-map-marker-alt me-1" aria-hidden="true"></i>Открыть в 2ГИС
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-globe me-2 text-primary" aria-hidden="true"></i>
+                                <strong>Официальный сайт:</strong>
+                            </div>
+                            <a href="https://lich22-nsk.ru/" target="_blank" rel="noopener noreferrer" 
+                               class="btn btn-link p-0 text-decoration-none" aria-label="Перейти на официальный сайт Лицея №22">
+                                lich22-nsk.ru
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone me-2 text-primary" aria-hidden="true"></i>
+                                <strong>Телефон:</strong>
+                            </div>
+                            <p class="mb-1 text-muted small">
+                                +7 (383) 222-45-67
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРАВАЯ КОЛОНКА 30% - ДВА ФОТО -->
+            <div class="right-column">
+                <!-- ✅ ПЕРВОЕ ФОТО -->
+                <div class="media-block" role="img" aria-label="Главный корпус на Советской">
+                    <img src="{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp') }}" 
+                         alt="Главный корпус Лицея №22 на Советской улице, Новосибирск" class="school-photo">
+                    <div class="photo-caption">
+                        <i class="fas fa-camera me-1" aria-hidden="true"></i>Главный корпус (Советская)
+                    </div>
+                </div>
+
+                <!-- ✅ ВТОРОЕ ФОТО -->
+                <div class="media-block" role="img" aria-label="Корпус на Чаплыгина">
+                    <img src="{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo2.jpg') }}" 
+                         alt="Второй корпус Лицея №22 на Чаплыгина, Новосибирск" class="school-photo">
+                    <div class="photo-caption">
+                        <i class="fas fa-camera me-1" aria-hidden="true"></i>Корпус на Чаплыгина
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

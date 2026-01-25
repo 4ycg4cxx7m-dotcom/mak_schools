@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Поиск школ - Расширенный</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #0062cc, #004a99);
+            --primary-dark: linear-gradient(135deg, #004a99, #003366);
+            --primary-light: linear-gradient(90deg, #0062cc, #00a8e8);
+            --bg-color: #f0f4f8;
+            --panel-bg: #fff;
+            --border-color: #0062cc;
+            --text-dark: #2D2F33;
+            --shadow-blue: 0 4px 12px rgba(0, 98, 204, 0.3);
+            --shadow-blue-hover: 0 6px 16px rgba(0, 74, 153, 0.6);
+            --shadow-panel: 0 20px 60px rgba(0, 98, 204, 0.25);
+            --header-gradient: linear-gradient(135deg, #0052b3, #004080);
+            --uniform-gap: 1.5rem;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', 'Arial', sans-serif;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+        }
+
+        /* НАВИГАЦИОННАЯ ПАНЕЛЬ ДЛЯ ПК/ПЛАНШЕТОВ (ТОЛЬКО ГЛАВНАЯ) */
+        .navigation-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1050;
+            transition: all 0.3s ease;
+            width: 80%;
+            max-width: 380px;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .navigation-panel button {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-blue);
+            border: none;
+            color: white;
+            background: var(--primary-gradient);
+            font-family: 'Inter', Arial, sans-serif;
+            line-height: 1.3;
+        }
+
+        .navigation-panel button:hover {
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        /* БОКОВАЯ ПАНЕЛЬ */
+        .toggle-panel-btn {
+            position: fixed;
+            top: 20px;
+            left: 25px;
+            z-index: 2000;
+            width: 55px;
+            height: 55px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-blue-hover);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-panel-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .toggle-panel-btn i {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toggle-panel-btn.active i {
+            transform: rotate(90deg);
+        }
+
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--panel-bg);
+            border-radius: 0 20px 20px 0;
+            box-shadow: var(--shadow-panel);
+            z-index: 1500;
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            border-right: 2px solid var(--border-color);
+        }
+
+        .side-panel.active {
+            left: 0;
+        }
+
+        .panel-header {
+            padding: 2rem 2rem 2rem 90px;
+            background: var(--header-gradient);
+            color: white;
+            border-radius: 0 20px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .panel-content {
+            padding: 1rem 2rem 2rem;
+        }
+
+        .panel-btn {
+            display: block;
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: none;
+            font-size: 0.92rem;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        .panel-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary-gradient);
+            transform: translateX(6px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        button:focus, a:focus, input:focus {
+            outline: 3px solid #0062cc;
+            outline-offset: 2px;
+        }
+
+        .search-scope-selector {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .scope-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .scope-btn.active, .scope-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary-gradient);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--border-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .search-section {
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            padding: 2.5rem 2rem;
+            background: var(--panel-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-panel);
+            border: 2px solid var(--border-color);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            max-width: 100%;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 1.5rem 2.5rem 1.5rem 3.5rem;
+            font-size: 1.2rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+            font-weight: 500;
+        }
+
+        #search-input:focus {
+            border-color: var(--border-color);
+            box-shadow: 0 0 0 4px rgba(0,98,204,0.1);
+            background: var(--panel-bg);
+            transform: scale(1.02);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.4rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.3rem;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        #search-input:focus + .search-icon {
+            color: var(--border-color);
+        }
+
+        .results-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .results-count {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--border-color);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .result-item {
+            background: var(--panel-bg);
+            border-radius: 16px;
+            padding: 1.8rem;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .result-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-color);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .load-more-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 1rem 2.5rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-panel);
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,98,204,0.3);
+        }
+
+        /* МОБИЛЬНЫЕ Кнопки СПРАВА СНИЗУ */
+        .mobile-nav {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .mobile-nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 24px;
+            padding: 0;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav button:hover,
+        .mobile-nav button:active {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-blue-hover);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .navigation-panel { 
+                flex-direction: column;
+                width: 85%;
+                max-width: 300px;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { 
+                padding-top: 10px !important; 
+                padding-bottom: 90px; 
+            }
+            .container { padding: 1.5rem 1rem; }
+            .toggle-panel-btn { top: 15px; left: 20px; width: 50px; height: 50px; }
+            .panel-header { padding: 1.8rem 1.8rem 1.8rem 80px; }
+            .side-panel { width: 90%; left: -90%; }
+            .search-section { padding: 2rem 1.5rem; }
+            .results-grid { grid-template-columns: 1fr; }
+            .search-scope-selector { flex-direction: column; align-items: center; }
+            .navigation-panel { display: none !important; }
+            .mobile-nav { display: flex !important; }
+        }
+
+        @media (max-width: 576px) {
+            .toggle-panel-btn { width: 45px; height: 45px; font-size: 1.2rem; }
+            .mobile-nav button { width: 46px; height: 46px; font-size: 22px; }
+        }
+
+        @supports (padding: max(0px)) {
+            body { padding-bottom: max(90px, env(safe-area-inset-bottom)); }
+            .navigation-panel { bottom: max(20px, env(safe-area-inset-bottom)); }
+            .mobile-nav { bottom: max(25px, env(safe-area-inset-bottom)); }
+        }
+    </style>
+</head>
+<body>
+    <!-- НАВИГАЦИОННАЯ ПАНЕЛЬ (ТОЛЬКО ГЛАВНАЯ) -->
+    <nav class="navigation-panel" id="navigationPanel" role="navigation" aria-label="Основная навигация">
+        <button onclick="location.href='{{ url_for('domoi') }}'" aria-label="Перейти на главную страницу">
+            🏠 Главная
+        </button>
+    </nav>
+
+    <!-- БОКОВАЯ ПАНЕЛЬ -->
+    <button class="toggle-panel-btn" id="togglePanel" title="Меню" aria-label="Открыть меню" aria-expanded="false">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+
+    <div class="side-panel" id="sidePanel" role="navigation" aria-label="Расширенная навигация">
+        <div class="panel-header">
+            <h3>
+                <i class="fas fa-th me-2" aria-hidden="true"></i>Навигация
+            </h3>
+        </div>
+        
+        <div class="panel-content">
+            <a href="{{ url_for('search') }}" class="panel-btn">
+                <i class="fas fa-search me-3" aria-hidden="true"></i>Поиск на сайте
+            </a>
+            <a href="{{ url_for('all_schools') }}" class="panel-btn">
+                <i class="fas fa-list me-3" aria-hidden="true"></i>Все школы
+            </a>
+            <a href="{{ url_for('support') }}" class="panel-btn">
+                <i class="fas fa-life-ring me-3" aria-hidden="true"></i>Техподдержка
+            </a>
+            <a href="{{ url_for('support_author') }}" class="panel-btn">
+                <i class="fas fa-heart me-3" aria-hidden="true"></i>Поддержать проект
+            </a>
+            <a href="{{ url_for('Информация_о_сайте') }}" class="panel-btn">
+                <i class="fas fa-info-circle me-3" aria-hidden="true"></i>О сайте
+            </a>
+            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn">
+                <i class="fas fa-shield-alt me-3" aria-hidden="true"></i>Политика конфиденциальности
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ЗАГОЛОВОК -->
+        <div class="page-header">
+            <h1 class="page-title">🔍 Поиск школ</h1>
+            <p class="page-subtitle">Введите номер школы или название учреждения</p>
+        </div>
+        
+        <!-- СЕЛЕКТОР ОБЛАСТИ ПОИСКА -->
+        <div class="search-scope-selector">
+            <button class="scope-btn active" data-scope="all">🏠 Все файлы</button>
+            <button class="scope-btn" data-scope="nsk">🏫 Школы НСК</button>
+        </div>
+        
+        <!-- ПОЛЕ ПОИСКА -->
+        <div class="search-section">
+            <div class="search-input-wrapper">
+                <input type="text" id="search-input" placeholder="Введите номер школы или название..." autofocus>
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <!-- МОБИЛЬНЫЕ КНОПКИ СПРАВА СНИЗУ (ТОЛЬКО ГЛАВНАЯ) -->
+    <div class="mobile-nav">
+        <button onclick="location.href='{{ url_for('domoi') }}'" title="Главная" aria-label="Главная">
+            🏠
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Навигационная панель
+        function updateNavigationPosition() {
+            const navPanel = document.getElementById('navigationPanel');
+            if (navPanel) navPanel.style.bottom = '20px';
+        }
+
+        // Боковая панель
+        function togglePanel() {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            const isActive = panel.classList.toggle('active');
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-expanded', isActive);
+        }
+
+        document.getElementById('togglePanel').addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePanel();
+        });
+
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            if (!panel.contains(event.target) && !btn.contains(event.target) && panel.classList.contains('active')) {
+                togglePanel();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const panel = document.getElementById('sidePanel');
+                if (panel.classList.contains('active')) {
+                    togglePanel();
+                }
+            }
+        });
+
+        // Поиск
+        let currentScope = 'all';
+        let allResults = [];
+        let displayedCount = 0;
+        const PAGE_SIZE = 10;
+        let resultsGrid = null;
+
+        document.querySelectorAll('.scope-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.scope-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentScope = this.dataset.scope;
+                allResults = [];
+                displayedCount = 0;
+                document.getElementById('results').innerHTML = '';
+                resultsGrid = null;
+            });
+        });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            let query = this.value.trim();
+            const resultsDiv = document.getElementById('results');
+            
+            if (query.length > 2) {
+                fetch(`/api/search?q=${encodeURIComponent(query)}&scope=${currentScope}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        allResults = data;
+                        displayedCount = 0;
+                        resultsGrid = null;
+                        displayInitialResults();
+                    })
+                    .catch(error => {
+                        resultsDiv.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-triangle"></i><br>Произошла ошибка при поиске.</div>';
+                    });
+            } else {
+                allResults = [];
+                displayedCount = 0;
+                resultsGrid = null;
+                resultsDiv.innerHTML = '';
+            }
+        });
+
+        function displayInitialResults() {
+            const resultsDiv = document.getElementById('results');
+            const resultsSection = document.createElement('div');
+            resultsSection.className = 'results-section';
+            
+            if (allResults.length === 0) {
+                resultsSection.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search fa-3x" style="opacity: 0.5; margin-bottom: 1rem;"></i>
+                        <div>Ничего не найдено</div>
+                        <div style="font-size: 0.95rem; opacity: 0.7; margin-top: 0.5rem;">
+                            Введите запрос для поиска
+                        </div>
+                    </div>
+                `;
+                resultsDiv.innerHTML = '';
+                resultsDiv.appendChild(resultsSection);
+                return;
+            }
+
+            const end = Math.min(PAGE_SIZE, allResults.length);
+            const pageResults = allResults.slice(0, end);
+            
+            resultsSection.innerHTML = `
+                <div class="results-header">
+                    <div class="results-count">Найдено результатов: ${allResults.length}</div>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        Показаны: 1-${end} из ${allResults.length}
+                    </div>
+                </div>
+                <div class="results-grid" id="results-grid">
+                    ${pageResults.map(result => `
+                        <a href="${result.url}" class="result-item">
+                            <div class="result-title">${result.title}</div>
+                        </a>
+                    `).join('')}
+                </div>
+            `;
+            
+            if (end < allResults.length) {
+                const loadMoreBtn = document.createElement('button');
+                loadMoreBtn.className = 'load-more-btn';
+                loadMoreBtn.innerHTML = `<i class="fas fa-plus me-2"></i>Показать еще ${allResults.length - end} результатов`;
+                loadMoreBtn.onclick = loadMoreResults;
+                resultsSection.appendChild(loadMoreBtn);
+            }
+            
+            resultsDiv.innerHTML = '';
+            resultsDiv.appendChild(resultsSection);
+            resultsGrid = document.getElementById('results-grid');
+            displayedCount = end;
+        }
+
+        function loadMoreResults() {
+            const start = displayedCount;
+            const end = Math.min(start + PAGE_SIZE, allResults.length);
+            const newResults = allResults.slice(start, end);
+            
+            newResults.forEach(result => {
+                const resultItem = document.createElement('a');
+                resultItem.href = result.url;
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `<div class="result-title">${result.title}</div>`;
+                resultsGrid.appendChild(resultItem);
+            });
+            
+            displayedCount = end;
+            
+            const resultsHeader = document.querySelector('.results-header .results-count').parentElement;
+            resultsHeader.querySelectorAll('[style*="color: #666"]')[0].textContent = 
+                `Показаны: 1-${displayedCount} из ${allResults.length}`;
+            
+            const loadMoreBtn = document.querySelector('.load-more-btn');
+            if (end >= allResults.length || loadMoreBtn === null) {
+                if (loadMoreBtn) loadMoreBtn.remove();
+            } else {
+                loadMoreBtn.innerHTML = `<i class="fas fa-plus me-2"></i>Показать еще ${allResults.length - end} результатов`;
+            }
+        }
+
+        // Инициализация
+        window.addEventListener('resize', updateNavigationPosition);
+        window.addEventListener('load', updateNavigationPosition);
+    </script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!-- Eklic_nskob_nsk_cent.html -->
+{% extends "base_sch.html" %}
+
+{% block title %}Экономический лицей Новосибирск | Углубленные классы экономика{% endblock %}
+
+{% block meta_description %}Экономический лицей Новосибирск: углубленное изучение экономики, математики. Конкуренция 4-6 чел/место. Корпус: Крылова 36. Подготовка к ЕГЭ и олимпиадам{% endblock %}
+
+{% block meta_keywords %}экономический лицей новосибирск, лицей экономика нск, поступление экономический лицей, школы крылова, лицей центр новосибирск, олимпиады экономика нск{% endblock %}
+
+{% block og_title %}Экономический лицей Новосибирск — Лидер экономического образования{% endblock %}
+{% block og_description %}Основан в 1992 году. Углубленные классы экономики, математики. Ежегодные победы на олимпиадах. Конкуренция 4-6 чел/место{% endblock %}
+{% block og_image %}{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp', _external=True) }}{% endblock %}
+
+{% block twitter_title %}Экономический лицей Новосибирск{% endblock %}
+{% block twitter_description %}30+ лет лидерства в экономическом образовании{% endblock %}
+{% block twitter_image %}{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp', _external=True) }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": ["School", "EducationalOrganization"],
+    "name": "Муниципальное автономное общеобразовательное учреждение «Экономический лицей»",
+    "alternateName": ["Экономический лицей", "Лицей №4 Новосибирск"],
+    "url": "https://eklic.nsk.ru/",
+    "telephone": "+7 (383) 222-58-42",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Крылова, 36",
+        "addressLocality": "Новосибирск",
+        "addressRegion": "Новосибирская область",
+        "postalCode": "630099",
+        "addressCountry": "RU"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 55.041492,
+        "longitude": 82.936099
+    },
+    "description": "Лидер экономического образования Новосибирска с 1992 года. Углубленное изучение экономики, математики, обществознания. IT-куб, партнерство НГУЭУ.",
+    "educationalProgram": [
+        "Углубленное изучение экономики",
+        "Углубленное изучение математики",
+        "Финансовая грамотность",
+        "Подготовка к олимпиадам"
+    ],
+    "openingHours": "Пн-Пт 08:00-14:30",
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "bestRating": "5",
+        "reviewCount": "89"
+    },
+    "areaServed": ["Центральный округ Новосибирск", "Октябрьский район"],
+    "sameAs": ["https://eklic.nsk.ru/"]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #28a745, #20c997);
+        --primary-dark: linear-gradient(135deg, #20c997, #1e7e34);
+        --primary-light: linear-gradient(90deg, #28a745, #20c997);
+        --bg-color: #f8fff9;
+        --panel-bg: #fff;
+        --border-color: #28a745;
+        --text-dark: #2d5a3a;
+        --shadow-green: 0 4px 12px rgba(40, 167, 69, 0.3);
+        --shadow-green-hover: 0 6px 16px rgba(32, 201, 151, 0.6);
+        --shadow-panel: 0 12px 32px rgba(40, 167, 69, 0.18);
+        --info-card-bg: rgba(40, 167, 69, 0.02);
+        --info-card-border: rgba(40, 167, 69, 0.15);
+    }
+
+    body {
+        background-color: var(--bg-color) !important;
+    }
+
+    .skip-link {
+        background: #28a745 !important;
+    }
+
+    button:focus, a:focus, input:focus {
+        outline-color: #28a745 !important;
+    }
+
+    .border-panel {
+        border-color: var(--border-color) !important;
+    }
+
+    .border-panel:hover {
+        box-shadow: var(--shadow-panel) !important;
+    }
+
+    .info-card {
+        background-color: var(--info-card-bg) !important;
+        border-color: var(--info-card-border) !important;
+    }
+
+    .info-card:hover {
+        background-color: rgba(40, 167, 69, 0.05) !important;
+        border-color: rgba(40, 167, 69, 0.25) !important;
+    }
+
+    .media-block {
+        border-color: var(--border-color) !important;
+    }
+
+    .media-block:hover {
+        box-shadow: var(--shadow-panel) !important;
+    }
+
+    .achievement-counter {
+        color: #28a745;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    h3, h4 {
+        color: var(--text-dark) !important;
+    }
+
+    h3::after, h4::after {
+        background: var(--primary-light) !important;
+    }
+
+    .fixed-button-bar button {
+        background: var(--primary-gradient) !important;
+        box-shadow: var(--shadow-green) !important;
+    }
+
+    .fixed-button-bar button:hover {
+        background: var(--primary-dark) !important;
+        box-shadow: var(--shadow-green-hover) !important;
+    }
+
+    .mobile-nav button {
+        background: var(--primary-gradient) !important;
+        box-shadow: var(--shadow-green) !important;
+    }
+
+    .mobile-nav button:hover,
+    .mobile-nav button:active {
+        box-shadow: var(--shadow-green-hover) !important;
+    }
+
+    .btn-outline-success {
+        border-color: #28a745 !important;
+        color: #28a745 !important;
+    }
+
+    .btn-outline-success:hover {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
+
+    .fas.fa-globe, .fas.fa-phone {
+        color: #28a745 !important;
+    }
+</style>
+
+<div class="main-container">
+    <!-- ЗАГОЛОВОК НАД КОЛОНКАМИ -->
+    <div class="content-wrapper">
+        <h1 class="text-center title-with-spacing mb-5" role="banner">Экономический лицей</h1>
+        
+        <!-- ДВЕ КОЛОНКИ НА ОДНОМ УРОВНЕ -->
+        <div class="two-column-layout">
+            <!-- ЛЕВАЯ КОЛОНКА 70% - ОПИСАНИЕ -->
+            <div class="left-column">
+                <div class="border-panel school-description">
+                    <h2 class="sr-only">Об образовательной организации</h2>
+                    
+                    <h3>Об образовательной организации:</h3>
+                    
+                    <p><strong>💰 Лидер экономического образования</strong> <span class="achievement-counter"><span>30</span>+ лет лидерства</span></p>
+                    <p>Основан в <strong>1992 году</strong> как первый экономический лицей Новосибирска. Готовит лидеров бизнеса и финансов! 🌟</p>
+                    
+                    <h4>🏠 Корпус лицея</h4>
+                    <ul class="list-unstyled mb-3">
+                        <li><strong>📍 Основной корпус</strong> — ул. Крылова, 36<br>
+                            <small class="text-muted">Построен 1978 • Капитальный ремонт 2022</small></li>
+                    </ul>
+
+                    <h4>⭐ Почему выбирают Экономический лицей</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li>🎓 Углубленные классы (экономика, математика)</li>
+                                <li>📊 Финансовая грамотность с 5 класса</li>
+                                <li>🏆 Победы на олимпиадах по экономике</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li>🤝 Партнерство НГУЭУ, Сбербанк, ВТБ</li>
+                                <li>💻 Биржевая игра, бизнес-проекты</li>
+                                <li>📚 Экономическая библиотека 5000+ книг</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>⚠️ Поступление</h4>
+                    <p><strong>Конкуренция 4-6 чел/место</strong>. Вступительные испытания с 5-го класса. Обязательна подготовка по математике и русскому языку!</p>
+                    
+                    <h4>🏘️ Приписанные дома (выборка)</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <strong>Центр:</strong><br>
+                            <small>Крылова 28-45 • Коммунистическая 55-72<br>
+                            Советская 90-110 • Ленина 52-68</small>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Октябрьский:</strong><br>
+                            <small>Мичурина 78-95 • Дуси Ковальчук 12-25<br>
+                            Красный пр. 105-120</small>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Адрес корпуса:</strong></p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-12">
+                            <div class="card h-100 info-card border-0 shadow-sm p-3" role="article" aria-labelledby="building-1">
+                                <h5 id="building-1" class="card-title mb-2">Корпус на Крылова</h5>
+                                <p class="card-text mb-3">г. Новосибирск, ул. Крылова, 36</p>
+                                <a href="https://2gis.ru/novosibirsk/search/экономический%20лицей/firm/141265769340070/82.936099%2C55.041492?m=82.934305%2C55.039436%2F14.99" target="_blank" rel="noopener noreferrer" 
+                                   class="btn btn-outline-success btn-sm w-100" aria-label="Открыть адрес Экономический лицей на Крылова 36 в 2ГИС">
+                                    <i class="fas fa-map-marker-alt me-1" aria-hidden="true"></i>Открыть в 2ГИС
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-globe me-2 text-success" aria-hidden="true"></i>
+                                <strong>Официальный сайт:</strong>
+                            </div>
+                            <a href="https://eklic.nsk.ru/" target="_blank" rel="noopener noreferrer" 
+                               class="btn btn-link p-0 text-decoration-none" aria-label="Перейти на официальный сайт Экономического лицея">
+                                eklic.nsk.ru
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-phone me-2 text-success" aria-hidden="true"></i>
+                                <strong>Телефон:</strong>
+                            </div>
+                            <p class="mb-1 text-muted small">
+                                +7 (383) 222-58-42
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРАВАЯ КОЛОНКА 30% - ДВА ФОТО -->
+            <div class="right-column">
+                <!-- ✅ ПЕРВОЕ ФОТО -->
+                <div class="media-block" role="img" aria-label="Главный корпус Экономического лицея">
+                    <img src="{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo1.webp') }}" 
+                         alt="Главный корпус Экономического лицея на Крылова, Новосибирск" class="school-photo">
+                    <div class="photo-caption">
+                        <i class="fas fa-camera me-1" aria-hidden="true"></i>Главный корпус (Крылова)
+                    </div>
+                </div>
+
+                <!-- ✅ ВТОРОЕ ФОТО -->
+                <div class="media-block" role="img" aria-label="Территория Экономического лицея">
+                    <img src="{{ url_for('static', filename='photo/Asch_nskob_nsk_cent_gim1_photo2.jpg') }}" 
+                         alt="Территория и внутренний двор Экономического лицея, Новосибирск" class="school-photo">
+                    <div class="photo-caption">
+                        <i class="fas fa-camera me-1" aria-hidden="true"></i>Территория лицея
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    // Переопределяем анимацию счетчика для 30+ лет
+    document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.achievement-counter span');
+        counters.forEach(counter => {
+            let start = 0;
+            const end = 30; // Фиксируем 30 для экономического лицея
+            const duration = 2500;
+            const stepTime = 16;
+            const steps = duration / stepTime;
+            const step = end / steps;
+            let currentStep = 0;
+
+            const timer = setInterval(() => {
+                currentStep++;
+                start += step;
+                if (start >= end || currentStep >= steps) {
+                    counter.textContent = end;
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.floor(start);
+                }
+            }, stepTime);
+        });
+    });
+</script>
+{% endblock %}
