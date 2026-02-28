@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Все школы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+:root {
+    --primary-gradient: linear-gradient(135deg, #0062cc, #004a99);
+    --primary-dark: linear-gradient(135deg, #004a99, #003366);
+    --primary-light: linear-gradient(90deg, #0062cc, #00a8e8);
+    --bg-color: #f0f4f8;
+    --panel-bg: #fff;
+    --border-color: #0062cc;
+    --text-dark: #2D2F33;
+    --shadow-blue: 0 4px 12px rgba(0, 98, 204, 0.3);
+    --shadow-blue-hover: 0 6px 16px rgba(0, 74, 153, 0.6);
+    --shadow-panel: 0 20px 60px rgba(0, 98, 204, 0.25);
+    --info-card-bg: rgba(0, 98, 204, 0.02);
+    --uniform-gap: 1.5rem;
+    --header-gradient: linear-gradient(135deg, #0052b3, #004080);
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Inter', 'Arial', sans-serif;
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 100px;
+    overflow-x: hidden;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #0062cc;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    z-index: 1000;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.skip-link:focus { top: 6px; }
+
+button:focus, a:focus, input:focus {
+    outline: 3px solid #0062cc;
+    outline-offset: 2px;
+}
+
+.main-container {
+    max-width: 1400px;
+    width: 95%;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4rem;
+    min-height: 80vh;
+}
+
+.navigation-panel {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 1050;
+    transition: all 0.3s ease;
+    width: 80%;
+    max-width: 380px;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.navigation-panel button {
+    flex: 1;
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-blue);
+    border: none;
+    color: white;
+    background: var(--primary-gradient);
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.3;
+}
+
+.navigation-panel button:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-blue-hover);
+    transform: translateY(-1px);
+}
+
+.toggle-panel-btn {
+    position: fixed;
+    top: 20px;
+    left: 25px;
+    z-index: 2000;
+    width: 55px;
+    height: 55px;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-blue-hover);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-panel-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-panel);
+}
+
+.toggle-panel-btn i {
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toggle-panel-btn.active i {
+    transform: rotate(90deg);
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    left: -400px;
+    width: 380px;
+    height: 100vh;
+    background: var(--panel-bg);
+    border-radius: 0 20px 20px 0;
+    box-shadow: var(--shadow-panel);
+    z-index: 1500;
+    transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+    border-right: 2px solid var(--border-color);
+}
+
+.side-panel.active {
+    left: 0;
+}
+
+.panel-header {
+    padding: 2rem 2rem 2rem 90px;
+    background: var(--header-gradient);
+    color: white;
+    border-radius: 0 20px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.panel-content {
+    padding: 1rem 2rem 2rem;
+}
+
+.panel-btn {
+    display: block;
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--panel-bg);
+    color: var(--text-dark);
+    text-decoration: none;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    font-size: 0.92rem;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.panel-btn:hover {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: var(--primary-gradient);
+    transform: translateX(6px);
+    box-shadow: var(--shadow-panel);
+}
+
+.title-with-spacing {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: var(--uniform-gap) !important;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #333;
+}
+
+/* ✅ МАЛЕНЬКИЕ ПЛИТКИ - УМЕНЬШЕНО РАССТОЯНИЕ */
+.mode-switcher {
+    display: flex;
+    gap: 1rem;
+    margin: 0.5rem 0 1rem; /* ✅ УМЕНЬШЕНО С 1.5rem 0 2.5rem */
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mode-tile {
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+    background: var(--panel-bg);
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', Arial, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,98,204,0.1);
+    min-height: 40px;
+    white-space: nowrap;
+}
+
+.mode-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.mode-tile.active::before,
+.mode-tile:hover::before {
+    transform: scaleX(1);
+}
+
+.mode-tile.active,
+.mode-tile:hover {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: var(--primary-gradient);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-blue);
+}
+
+.mode-tile i {
+    font-size: 1.1rem;
+    width: 18px;
+}
+
+.schools-wrapper {
+    width: 100%;
+    margin-bottom: var(--uniform-gap) !important;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    text-align: center;
+    margin: 3rem 0 2.5rem; /* ✅ УМЕНЬШЕНО */
+    position: relative;
+    font-weight: 600;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--primary-light);
+    border-radius: 2px;
+}
+
+.schools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--uniform-gap);
+    margin-top: var(--uniform-gap);
+    max-width: 1400px;
+    width: 100%;
+}
+
+.school-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.25rem 1.3rem 1.2rem;
+    background: var(--panel-bg);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    height: 185px;
+}
+
+.school-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.school-card:hover::before {
+    transform: scaleX(1);
+}
+
+.school-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-panel);
+    color: var(--text-dark);
+}
+
+.school-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex: 1;
+    min-height: 40px;
+}
+
+.school-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-blue);
+}
+
+.school-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.24;
+}
+
+.school-address-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.825rem;
+    line-height: 1.32;
+    color: #666;
+    font-weight: 500;
+}
+
+.school-location-main {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.825rem;
+    line-height: 1.32;
+    color: #0062cc;
+    font-weight: 600;
+}
+
+.school-location-extra {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.795rem;
+    line-height: 1.28;
+    color: #007bff;
+    font-weight: 500;
+    margin-top: -0.15rem;
+}
+
+.school-arrow {
+    font-size: 1.08rem;
+    color: var(--border-color);
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.school-card:hover .school-arrow {
+    transform: translateX(8px);
+    color: #0062cc;
+}
+
+.mobile-nav {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+}
+
+.mobile-nav button {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 24px;
+    padding: 0;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    box-shadow: var(--shadow-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-nav button:hover,
+.mobile-nav button:active {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-blue-hover);
+}
+
+/* Скрытие контента */
+.hidden {
+    display: none !important;
+}
+
+/* МОБИЛЬНЫЕ СТИЛИ */
+@media (max-width: 1200px) {
+    .main-container { width: 98%; }
+    .schools-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 992px) {
+    .schools-grid { grid-template-columns: repeat(3, 1fr); }
+    .navigation-panel { 
+        flex-direction: column;
+        width: 85%;
+        max-width: 300px;
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root { --uniform-gap: 1.2rem; }
+    body { 
+        padding-top: 10px !important; 
+        padding-bottom: 90px; 
+    }
+    .content-wrapper { padding-top: 1rem !important; margin-top: 1rem !important; }
+    .title-with-spacing { margin-top: 1rem !important; margin-bottom: var(--uniform-gap) !important; }
+    .main-container { padding-top: 1rem !important; margin-top: 0.5rem !important; }
+    
+    .schools-grid { grid-template-columns: repeat(2, 1fr); gap: var(--uniform-gap) !important; }
+    .school-card { 
+        height: 195px; 
+        padding: 1.35rem 1.35rem 1.25rem; 
+        gap: 0.4rem; 
+    }
+    .school-icon { width: 50px; height: 50px; font-size: 19px; }
+    .school-header { min-height: 52px; gap: 0.85rem; }
+    .school-title { font-size: 1.08rem; line-height: 1.26; }
+    .school-address-row, .school-location-main { 
+        font-size: 0.88rem; 
+        line-height: 1.34;
+        gap: 0.5rem;
+    }
+    .school-location-extra { 
+        font-size: 0.85rem; 
+        line-height: 1.3;
+        gap: 0.4rem;
+    }
+    .section-title { margin: 2.5rem 0 2rem !important; }
+    .toggle-panel-btn { top: 15px; left: 20px; width: 50px; height: 50px; }
+    .panel-header { padding: 1.8rem 1.8rem 1.8rem 80px; }
+    .side-panel { width: 90%; left: -90%; }
+    
+    .navigation-panel { display: none !important; }
+    .mobile-nav { display: flex !important; }
+    
+    .mode-switcher {
+        gap: 0.8rem;
+        margin: 0.3rem 0 0.8rem;
+    }
+    .mode-tile {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+        min-height: 36px;
+    }
+}
+
+@media (max-width: 576px) {
+    :root { --uniform-gap: 1rem; }
+    .schools-grid { grid-template-columns: 1fr; gap: var(--uniform-gap) !important; }
+    .school-card { 
+        height: 192px; 
+        padding: 1.35rem 1.4rem 1.25rem; 
+        gap: 0.38rem; 
+    }
+    .school-icon { width: 48px; height: 48px; font-size: 18px; }
+    .school-title { font-size: 1.05rem; }
+    .school-address-row, .school-location-main { font-size: 0.86rem; }
+    .school-location-extra { font-size: 0.83rem; }
+    .toggle-panel-btn { width: 45px; height: 45px; font-size: 1.2rem; }
+    .mobile-nav button { width: 46px; height: 46px; font-size: 22px; }
+}
+
+@supports (padding: max(0px)) {
+    body { padding-bottom: max(90px, env(safe-area-inset-bottom)); }
+    .navigation-panel { bottom: max(20px, env(safe-area-inset-bottom)); }
+    .mobile-nav { bottom: max(25px, env(safe-area-inset-bottom)); }
+}
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Перейти к основному содержимому</a>
+
+    <!-- ✅ ТОЛЬКО ГЛАВНАЯ в нижней панели -->
+    <nav class="navigation-panel" id="navigationPanel" role="navigation" aria-label="Основная навигация">
+        <button onclick="location.href='{{ url_for('domoi') }}'" aria-label="Перейти на главную страницу">
+            🏠 Главная
+        </button>
+    </nav>
+
+    <button class="toggle-panel-btn" id="togglePanel" title="Меню" aria-label="Открыть меню" aria-expanded="false">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+
+    <div class="side-panel" id="sidePanel" role="navigation" aria-label="Расширенная навигация">
+        <div class="panel-header">
+            <h3>
+                <i class="fas fa-th me-2" aria-hidden="true"></i>Навигация
+            </h3>
+        </div>
+        
+        <div class="panel-content">
+            <a href="{{ url_for('search') }}" class="panel-btn">
+                <i class="fas fa-search me-3" aria-hidden="true"></i>Поиск на сайте
+            </a>
+            <a href="{{ url_for('Novosibirsk') }}" class="panel-btn">
+                <i class="fas fa-school me-3" aria-hidden="true"></i>🏫 Школы НСК
+            </a>
+            <a href="{{ url_for('all_schools') }}" class="panel-btn">
+                <i class="fas fa-list me-3" aria-hidden="true"></i>📋 Все школы
+            </a>
+            <a href="{{ url_for('support') }}" class="panel-btn">
+                <i class="fas fa-life-ring me-3" aria-hidden="true"></i>Техподдержка
+            </a>
+            <a href="{{ url_for('support_author') }}" class="panel-btn">
+                <i class="fas fa-heart me-3" aria-hidden="true"></i>Поддержать проект
+            </a>
+            <a href="{{ url_for('Информация_о_сайте') }}" class="panel-btn">
+                <i class="fas fa-info-circle me-3" aria-hidden="true"></i>О сайте
+            </a>
+            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn">
+                <i class="fas fa-shield-alt me-3" aria-hidden="true"></i>Политика конфиденциальности
+            </a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1 class="title-with-spacing">Все школы</h1>
+            </div>
+            
+            <!-- ✅ МАЛЕНЬКИЕ КОМПАКТНЫЕ ПЛИТКИ -->
+            <div class="mode-switcher">
+                <button id="nskTile" class="mode-tile active" data-mode="nsk" onclick="switchMode('nsk')" aria-pressed="true">
+                    <i class="fas fa-school" aria-hidden="true"></i>
+                    Школы НСК
+                </button>
+                <button id="allTile" class="mode-tile" data-mode="all" onclick="switchMode('all')" aria-pressed="false">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Все школы
+                </button>
+            </div>
+            
+            <div class="schools-wrapper">
+                <!-- ✅ НСК школы (по умолчанию показаны) -->
+                <div id="nskSchools">
+                    <h2 class="section-title" id="main-content">🏫 Школы Новосибирска</h2>
+                    <div class="schools-grid">
+                        <a href="{{ url_for('gimn1nsk') }}" class="school-card" aria-label="Гимназия 1">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Гимназия №1 (Первая гимназия)</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Кирова, 56 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>150 м до ост. "Кирова"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Гоголя" 280 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('nslic220nsk') }}" class="school-card" aria-label="Лицей 22 Надежда Сибири">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Лицей №22 «Надежда Сибири»</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Советская, 10 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>200 м до ост. "Советская"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Ленина" 350 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_gim13') }}" class="school-card" aria-label="Гимназия 13">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Гимназия №13 им. Э.А. Быкова</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. 1905 года, 41 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>180 м до ост. "1905 года"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Дзержинского" 420 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_lic12') }}" class="school-card" aria-label="Лицей 12">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Лицей №12</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Серебренниковская, 10 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>250 м до ост. "Серебренниковская"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Мичурина" 310 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_licEkl') }}" class="school-card" aria-label="Экономический лицей">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Экономический лицей</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Красный проспект, 77 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-subway" aria-hidden="true"></i>
+                                <span>400 м до м. "Красный проспект"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Студгородок" 290 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch29') }}" class="school-card" aria-label="Школа 29">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №29</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Никитина, 8 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>120 м до ост. "Никитина"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Горский" 200 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch54') }}" class="school-card" aria-label="Школа 54">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №54</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Дуси Ковальчук, 165 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>300 м до ост. "Дуси Ковальчук"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Заельцовский парк" 450 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch4') }}" class="school-card" aria-label="Школа 4">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №4</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Горный санаторий, 10 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>220 м до ост. "Горный санаторий"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Блюз" 380 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch156') }}" class="school-card" aria-label="Школа 156">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №156</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Фадеева, 1/1 — Центральный район</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>160 м до ост. "Фадеева"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Тимирязева" 270 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ✅ ВСЕ ШКОЛЫ = те же НСК школы + Новосибирская область -->
+                <div id="allSchools" class="hidden">
+                    <h2 class="section-title">🌍 Все школы России</h2>
+                    <div class="schools-grid">
+                        <a href="{{ url_for('gimn1nsk') }}" class="school-card" aria-label="Гимназия 1">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Гимназия №1 (Первая гимназия)</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Кирова, 56 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>150 м до ост. "Кирова"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Гоголя" 280 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('nslic220nsk') }}" class="school-card" aria-label="Лицей 22 Надежда Сибири">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Лицей №22 «Надежда Сибири»</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Советская, 10 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>200 м до ост. "Советская"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Ленина" 350 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_gim13') }}" class="school-card" aria-label="Гимназия 13">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Гимназия №13 им. Э.А. Быкова</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. 1905 года, 41 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>180 м до ост. "1905 года"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Дзержинского" 420 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_lic12') }}" class="school-card" aria-label="Лицей 12">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Лицей №12</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Серебренниковская, 10 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>250 м до ост. "Серебренниковская"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Мичурина" 310 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_licEkl') }}" class="school-card" aria-label="Экономический лицей">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Экономический лицей</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Красный проспект, 77 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-subway" aria-hidden="true"></i>
+                                <span>400 м до м. "Красный проспект"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Студгородок" 290 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch29') }}" class="school-card" aria-label="Школа 29">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №29</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Никитина, 8 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>120 м до ост. "Никитина"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Горский" 200 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch54') }}" class="school-card" aria-label="Школа 54">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №54</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Дуси Ковальчук, 165 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>300 м до ост. "Дуси Ковальчук"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Заельцовский парк" 450 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch4') }}" class="school-card" aria-label="Школа 4">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №4</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Горный санаторий, 10 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>220 м до ост. "Горный санаторий"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Блюз" 380 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+
+                        <a href="{{ url_for('Asch_nskob_nsk_cent_sch156') }}" class="school-card" aria-label="Школа 156">
+                            <div class="school-header">
+                                <div class="school-icon">
+                                    <i class="fas fa-school" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="school-title">Школа №156</h3>
+                            </div>
+                            <div class="school-address-row">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>ул. Фадеева, 1/1 — Новосибирская область</span>
+                            </div>
+                            <div class="school-location-main">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>160 м до ост. "Фадеева"</span>
+                            </div>
+                            <div class="school-location-extra">
+                                <i class="fas fa-bus" aria-hidden="true"></i>
+                                <span>ост. "Тимирязева" 270 м</span>
+                                <i class="fas fa-arrow-right school-arrow" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ МОБИЛЬНЫЕ КНОПКИ - ТОЛЬКО ГЛАВНАЯ -->
+    <div class="mobile-nav">
+        <button onclick="location.href='{{ url_for('domoi') }}'" title="Главная" aria-label="Главная">
+            🏠
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ✅ ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ПЛИТКАМИ
+        function switchMode(mode) {
+            document.querySelectorAll('.mode-tile').forEach(tile => {
+                tile.classList.remove('active');
+                tile.setAttribute('aria-pressed', 'false');
+            });
+            
+            document.getElementById(mode === 'nsk' ? 'nskTile' : 'allTile').classList.add('active');
+            document.getElementById(mode === 'nsk' ? 'nskTile' : 'allTile').setAttribute('aria-pressed', 'true');
+            
+            document.getElementById('nskSchools').classList.toggle('hidden', mode !== 'nsk');
+            document.getElementById('allSchools').classList.toggle('hidden', mode !== 'all');
+        }
+
+        function updateNavigationPosition() {
+            const navPanel = document.getElementById('navigationPanel');
+            if (navPanel) navPanel.style.bottom = '20px';
+        }
+
+        function togglePanel() {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            const isActive = panel.classList.toggle('active');
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-expanded', isActive);
+        }
+
+        document.getElementById('togglePanel').addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePanel();
+        });
+
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            if (!panel.contains(event.target) && !btn.contains(event.target) && panel.classList.contains('active')) {
+                togglePanel();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const panel = document.getElementById('sidePanel');
+                if (panel.classList.contains('active')) {
+                    togglePanel();
+                }
+            }
+        });
+
+        window.addEventListener('resize', updateNavigationPosition);
+        window.addEventListener('load', updateNavigationPosition);
+    </script>
+</body>
+</html>

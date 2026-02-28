@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- SEO Мета-теги -->
+    <title>{% block title %}Школа Новосибирск | Школы рядом!{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Лучшие школы Новосибирска. Углубленные классы, современная инфраструктура, высокие результаты ЕГЭ.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}школы новосибирск, поступление школы, школы нск, гимназии новосибирск{% endblock %}">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:title" content="{% block og_title %}Школа Новосибирск{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Современное образование в Новосибирске. Высокие результаты, углубленные классы{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='photo/default_school.webp', _external=True) }}{% endblock %}">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Школа Новосибирск{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Качественное образование в Новосибирске{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='photo/default_school.webp', _external=True) }}{% endblock %}">
+    
+    <!-- Дополнительные SEO -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ request.url }}">
+    
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Микроразметка Schema.org -->
+    {% block structured_data %}{% endblock %}
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #0062cc, #004a99);
+            --primary-dark: linear-gradient(135deg, #004a99, #003366);
+            --primary-light: linear-gradient(90deg, #0062cc, #00a8e8);
+            --bg-color: #f0f4f8;
+            --panel-bg: #fff;
+            --border-color: #0062cc;
+            --text-dark: #4C4F54;
+            --shadow-blue: 0 4px 12px rgba(0, 98, 204, 0.3);
+            --shadow-blue-hover: 0 6px 16px rgba(0, 74, 153, 0.6);
+            --shadow-panel: 0 12px 32px rgba(0, 98, 204, 0.18);
+            --info-card-bg: rgba(0, 98, 204, 0.02);
+            --info-card-border: rgba(0, 98, 204, 0.15);
+            --uniform-gap: 1.5rem;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', 'Arial', sans-serif;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+        }
+
+        /* Skip Link для доступности */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #0062cc;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .skip-link:focus { top: 6px; }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        button:focus, a:focus, input:focus {
+            outline: 3px solid #0062cc;
+            outline-offset: 2px;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4rem;
+            min-height: 80vh;
+        }
+
+        .two-column-layout {
+            width: 100%;
+            display: flex;
+            gap: var(--uniform-gap);
+            margin-top: var(--uniform-gap);
+            align-items: flex-start;
+        }
+
+        .left-column { flex: 0 0 70%; max-width: 70%; }
+        .right-column { 
+            flex: 0 0 28%;
+            max-width: 28%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--uniform-gap);
+        }
+
+        .border-panel {
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            background-color: var(--panel-bg);
+            border-radius: 16px;
+            box-shadow: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .border-panel:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .info-card {
+            background-color: var(--info-card-bg) !important;
+            border: 1px solid var(--info-card-border) !important;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            background-color: rgba(0, 98, 204, 0.05) !important;
+            border-color: rgba(0, 98, 204, 0.25) !important;
+            transform: translateY(-2px);
+        }
+
+        .media-block {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            background-color: var(--panel-bg);
+            height: clamp(300px, 35vh, 400px);
+            flex-shrink: 0;
+            width: 100%;
+            margin-bottom: var(--uniform-gap);
+        }
+
+        .media-block:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .achievement-counter {
+            display: inline-block;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #0062cc;
+            background: linear-gradient(135deg, #0062cc, #00a8e8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .school-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            loading: lazy;
+            decoding: async;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1rem 1.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .title-with-spacing {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--uniform-gap) !important;
+            letter-spacing: -0.02em;
+            text-align: center;
+            color: #333;
+        }
+
+        h3 {
+            color: var(--text-dark);
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+
+        h4 {
+            color: var(--text-dark);
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 45px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+
+        /* ========== НАВИГАЦИОННАЯ ПАНЕЛЬ ========== */
+        .navigation-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1050;
+            transition: all 0.3s ease;
+            width: 80%;
+            max-width: 380px;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .navigation-panel button {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-blue);
+            border: none;
+            color: white;
+            background: var(--primary-gradient);
+            font-family: 'Inter', Arial, sans-serif;
+            line-height: 1.3;
+        }
+
+        .navigation-panel button:hover {
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .mobile-nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 24px;
+            padding: 0;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav button:hover,
+        .mobile-nav button:active {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-blue-hover);
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 1200px) {
+            .main-container { width: 98%; }
+        }
+
+        @media (max-width: 992px) {
+            .two-column-layout {
+                flex-direction: column;
+                gap: var(--uniform-gap);
+            }
+            .left-column, .right-column {
+                flex: none;
+                max-width: 100%;
+            }
+            .border-panel { 
+                margin: var(--uniform-gap) 0; 
+                padding: 1.5rem; 
+            }
+            .media-block { 
+                height: clamp(280px, 30vh, 350px); 
+                width: 100% !important;
+                margin-bottom: var(--uniform-gap);
+            }
+            .navigation-panel { 
+                flex-direction: column;
+                width: 85%;
+                max-width: 300px;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root { --uniform-gap: 1rem; }
+            body { 
+                padding-top: 10px !important; 
+                padding-bottom: 90px; 
+            }
+            .content-wrapper { padding-top: 1rem !important; margin-top: 1rem !important; }
+            .title-with-spacing { margin-top: 1rem !important; margin-bottom: var(--uniform-gap) !important; padding-top: 0.5rem !important; }
+            .main-container { padding-top: 1rem !important; margin-top: 0.5rem !important; }
+            .two-column-layout { margin-top: var(--uniform-gap) !important; gap: var(--uniform-gap) !important; }
+            .border-panel, .media-block { margin: var(--uniform-gap) 0 !important; }
+            .right-column { gap: var(--uniform-gap) !important; width: 100% !important; max-width: 100% !important; }
+            .mobile-nav { display: flex !important; }
+            .navigation-panel { display: none !important; }
+            .media-block { height: clamp(280px, 35vh, 350px) !important; width: 100% !important; max-width: 100% !important; margin-bottom: var(--uniform-gap) !important; }
+            .school-photo { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+        }
+
+        @media (max-width: 576px) {
+            :root { --uniform-gap: 0.75rem; }
+            body { padding-top: 10px !important; padding-bottom: 90px; }
+            .content-wrapper { padding-top: 1rem !important; }
+            .media-block { height: clamp(240px, 30vh, 280px); }
+            .border-panel { padding: 1.1rem; }
+            .mobile-nav button { width: 42px; height: 42px; font-size: 20px; }
+            .right-column { gap: var(--uniform-gap) !important; width: 100% !important; }
+            .media-block { width: 100% !important; max-width: 100% !important; border-radius: 12px; margin-bottom: var(--uniform-gap) !important; }
+            h4 { font-size: 1rem; margin-bottom: 1rem; padding-bottom: 0.6rem; }
+            .school-photo { border-radius: 12px 12px 0 0; }
+        }
+
+        @supports (padding: max(0px)) {
+            body { padding-bottom: max(90px, env(safe-area-inset-bottom)); }
+            .navigation-panel { bottom: max(20px, env(safe-area-inset-bottom)); }
+            .mobile-nav { bottom: max(25px, env(safe-area-inset-bottom)); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link для доступности -->
+    <a href="#main-content" class="skip-link">Перейти к основному контенту</a>
+    
+    {% block content %}{% endblock %}
+
+    <!-- ========== УНИВЕРСАЛЬНАЯ НАВИГАЦИОННАЯ ПАНЕЛЬ ========== -->
+    <nav class="navigation-panel" id="navigationPanel" role="navigation" aria-label="Основная навигация">
+        {% block nav_buttons %}
+        <button onclick="location.href='{{ url_for('sch_nskob_nsk_cent') }}'" aria-label="Вернуться на предыдущую страницу">
+            ← Назад
+        </button>
+        <button onclick="location.href='{{ url_for('domoi') }}'" aria-label="Перейти на главную страницу">
+            🏠 Главная
+        </button>
+        {% endblock %}
+    </nav>
+
+    <!-- ========== МОБИЛЬНАЯ НАВИГАЦИЯ (только для мобильных) ========== -->
+    <nav class="mobile-nav" role="navigation" aria-label="Мобильная навигация">
+        {% block mobile_nav_buttons %}
+        <button onclick="location.href='{{ url_for('sch_nskob_nsk_cent') }}'" title="Назад" aria-label="Назад">
+            ←
+        </button>
+        <button onclick="location.href='{{ url_for('domoi') }}'" title="Главная" aria-label="Главная">
+            🏠
+        </button>
+        {% endblock %}
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function() {
+            'use strict';
+            
+            const navPanel = document.getElementById('navigationPanel');
+
+            function updateNavigationPosition() {
+                if (navPanel) {
+                    navPanel.style.bottom = '20px';
+                }
+            }
+
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            function animateCounter() {
+                const counters = document.querySelectorAll('.achievement-counter span');
+                counters.forEach(counter => {
+                    let start = 0;
+                    const end = parseInt(counter.textContent) || 90;
+                    const duration = 2500;
+                    const stepTime = 16;
+                    const steps = duration / stepTime;
+                    const step = end / steps;
+                    let currentStep = 0;
+
+                    const timer = setInterval(() => {
+                        currentStep++;
+                        start += step;
+                        if (start >= end || currentStep >= steps) {
+                            counter.textContent = end;
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(start);
+                        }
+                    }, stepTime);
+                });
+            }
+
+            window.addEventListener('resize', debounce(updateNavigationPosition, 16));
+            window.addEventListener('load', () => {
+                updateNavigationPosition();
+                setTimeout(animateCounter, 500);
+            });
+        })();
+    </script>
+</body>
+</html>

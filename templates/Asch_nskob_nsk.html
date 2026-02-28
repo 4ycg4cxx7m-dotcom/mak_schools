@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Новосибирск - Школы рядом!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #0062cc, #004a99);
+            --primary-dark: linear-gradient(135deg, #004a99, #003366);
+            --primary-light: linear-gradient(90deg, #0062cc, #00a8e8);
+            --bg-color: #f0f4f8;
+            --panel-bg: #fff;
+            --border-color: #0062cc;
+            --text-dark: #2D2F33;
+            --shadow-blue: 0 4px 12px rgba(0, 98, 204, 0.3);
+            --shadow-blue-hover: 0 6px 16px rgba(0, 74, 153, 0.6);
+            --shadow-panel: 0 20px 60px rgba(0, 98, 204, 0.25);
+            --uniform-gap: 1.5rem;
+            --header-gradient: linear-gradient(135deg, #0052b3, #004080);
+            --small-gap: 0.5rem;
+            /* ✅ УВЕЛИЧЕННЫЙ ОТСТУП ДЛЯ МОБИЛЬНЫХ */
+            --mobile-section-gap: 4rem;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', 'Arial', sans-serif;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #0062cc;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .skip-link:focus { top: 6px; }
+
+        button:focus, a:focus, input:focus {
+            outline: 3px solid #0062cc;
+            outline-offset: 2px;
+        }
+
+        .toggle-panel-btn {
+            position: fixed;
+            top: 20px;
+            left: 25px;
+            z-index: 2000;
+            width: 55px;
+            height: 55px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-blue-hover);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-panel-btn:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .toggle-panel-btn i {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toggle-panel-btn.active i {
+            transform: rotate(90deg);
+        }
+
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--panel-bg);
+            border-radius: 0 20px 20px 0;
+            box-shadow: var(--shadow-panel);
+            z-index: 1500;
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            border-right: 2px solid var(--border-color);
+        }
+
+        .side-panel.active {
+            left: 0;
+        }
+
+        .panel-header {
+            padding: 2rem 2rem 2rem 90px;
+            background: var(--header-gradient);
+            color: white;
+            border-radius: 0 20px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .panel-content {
+            padding: 1rem 2rem 2rem;
+        }
+
+        .panel-btn {
+            display: block;
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: none;
+            font-size: 0.92rem;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        .panel-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary-gradient);
+            transform: translateX(6px);
+            box-shadow: var(--shadow-panel);
+        }
+
+        .main-container {
+            max-width: 1400px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4rem;
+            min-height: 80vh;
+        }
+
+        .navigation-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1050;
+            transition: all 0.3s ease;
+            width: 80%;
+            max-width: 380px;
+            padding: 0 1rem;
+            box-sizing: border-box;
+        }
+
+        .navigation-panel button {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-blue);
+            border: none;
+            color: white;
+            background: var(--primary-gradient);
+            font-family: 'Inter', Arial, sans-serif;
+            line-height: 1.3;
+        }
+
+        .navigation-panel button:hover {
+            background: var(--primary-dark);
+            box-shadow: var(--shadow-blue-hover);
+            transform: translateY(-1px);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .mobile-nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 24px;
+            padding: 0;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav button:hover,
+        .mobile-nav button:active {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-blue-hover);
+        }
+
+        .title-with-spacing {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: var(--small-gap) !important;
+            letter-spacing: -0.02em;
+            text-align: center;
+            color: #333;
+        }
+
+        /* ✅ ОСНОВНОЙ ОТСТУП ДЛЯ ДЕСКТОПА */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            text-align: center;
+            margin: 2rem 0 2.5rem;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+
+        .districts-wrapper {
+            width: 100%;
+            margin-bottom: var(--uniform-gap) !important;
+            max-width: 1000px;
+        }
+
+        .districts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--uniform-gap);
+            margin-top: var(--small-gap);
+        }
+
+        .district-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 2rem 1.8rem;
+            background: var(--panel-bg);
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text-dark);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            height: 185px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .district-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .district-btn:hover::before {
+            transform: scaleX(1);
+        }
+
+        .district-btn:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-color);
+            box-shadow: var(--shadow-panel);
+            color: var(--text-dark);
+        }
+
+        .district-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .district-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .district-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* ✅ МОБИЛЬНЫЕ СТИЛИ С УВЕЛИЧЕННЫМ ОТСТУПОМ */
+        @media (max-width: 1200px) {
+            .main-container { width: 98%; }
+            .districts-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .districts-grid { grid-template-columns: repeat(2, 1fr); }
+            .navigation-panel { 
+                flex-direction: column;
+                width: 85%;
+                max-width: 300px;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root { 
+                --uniform-gap: 1.2rem; 
+                --small-gap: 1rem;
+                --mobile-section-gap: 4rem; /* ✅ УВЕЛИЧЕННЫЙ ОТСТУП */
+            }
+            body { 
+                padding-top: 10px !important; 
+                padding-bottom: 90px; 
+            }
+            .content-wrapper { padding-top: 1rem !important; margin-top: 1rem !important; }
+            .title-with-spacing { margin-bottom: var(--small-gap) !important; }
+            .main-container { padding-top: 1rem !important; margin-top: 0.5rem !important; }
+            
+            /* ✅ ОСОБОЕ УСЛОВИЕ ДЛЯ МОБИЛЬНЫХ - БОЛЬШОЙ ОТСТУП */
+            .districts-grid { 
+                grid-template-columns: 1fr; 
+                gap: var(--uniform-gap) !important; 
+                margin-top: var(--mobile-section-gap) !important; /* ✅ 4rem = 64px */
+            }
+            
+            .district-btn { 
+                height: 195px; 
+                padding: 2.2rem 1.8rem; 
+                gap: 0.75rem; 
+            }
+            .district-icon { width: 65px; height: 65px; font-size: 26px; }
+            .district-title { font-size: 1.35rem; }
+            .section-title { 
+                margin: var(--mobile-section-gap) 0 2rem !important; /* ✅ ТОЖЕ УВЕЛИЧЕНО */
+            }
+            .toggle-panel-btn { top: 15px; left: 20px; width: 50px; height: 50px; }
+            .panel-header { padding: 1.8rem 1.8rem 1.8rem 80px; }
+            .side-panel { width: 90%; left: -90%; }
+            
+            .navigation-panel { display: none !important; }
+            .mobile-nav { display: flex !important; }
+        }
+
+        @media (max-width: 576px) {
+            :root { 
+                --uniform-gap: 1rem; 
+                --small-gap: 0.75rem;
+                --mobile-section-gap: 3.5rem;
+            }
+            .districts-grid { 
+                grid-template-columns: 1fr; 
+                gap: var(--uniform-gap) !important; 
+                margin-top: var(--mobile-section-gap) !important;
+            }
+            .district-btn { 
+                height: 192px; 
+                padding: 2.2rem 1.8rem; 
+                gap: 0.75rem; 
+            }
+            .district-icon { width: 62px; height: 62px; font-size: 25px; }
+            .district-title { font-size: 1.3rem; }
+            .toggle-panel-btn { width: 45px; height: 45px; font-size: 1.2rem; }
+            .mobile-nav button { width: 46px; height: 46px; font-size: 22px; }
+        }
+
+        @supports (padding: max(0px)) {
+            body { padding-bottom: max(90px, env(safe-area-inset-bottom)); }
+            .navigation-panel { bottom: max(20px, env(safe-area-inset-bottom)); }
+            .mobile-nav { bottom: max(25px, env(safe-area-inset-bottom)); }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Перейти к основному содержимому</a>
+
+    <nav class="navigation-panel" id="navigationPanel" role="navigation" aria-label="Основная навигация">
+        <button onclick="location.href='{{ url_for('sch_nskob') }}'" aria-label="Вернуться назад">
+            ← Назад
+        </button>
+        <button onclick="location.href='{{ url_for('domoi') }}'" aria-label="Перейти на главную страницу">
+            🏠 Главная
+        </button>
+    </nav>
+
+    <button class="toggle-panel-btn" id="togglePanel" title="Меню" aria-label="Открыть меню" aria-expanded="false">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+    </button>
+
+    <div class="side-panel" id="sidePanel" role="navigation" aria-label="Расширенная навигация">
+        <div class="panel-header">
+            <h3>
+                <i class="fas fa-th me-2" aria-hidden="true"></i>Навигация
+            </h3>
+        </div>
+        
+        <div class="panel-content">
+            <a href="{{ url_for('search') }}" class="panel-btn">
+                <i class="fas fa-search me-3" aria-hidden="true"></i>Поиск на сайте
+            </a>
+            <a href="{{ url_for('all_schools') }}" class="panel-btn">
+                <i class="fas fa-list me-3" aria-hidden="true"></i>Все школы
+            </a>
+            <a href="{{ url_for('support') }}" class="panel-btn">
+                <i class="fas fa-life-ring me-3" aria-hidden="true"></i>Техподдержка
+            </a>
+            <a href="{{ url_for('support_author') }}" class="panel-btn">
+                <i class="fas fa-heart me-3" aria-hidden="true"></i>Поддержать проект
+            </a>
+            <a href="{{ url_for('Информация_о_сайте') }}" class="panel-btn">
+                <i class="fas fa-info-circle me-3" aria-hidden="true"></i>О сайте
+            </a>
+            <a href="{{ url_for('Политика_Конфиденциальности') }}" class="panel-btn">
+                <i class="fas fa-shield-alt me-3" aria-hidden="true"></i>Политика конфиденциальности
+            </a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h1 class="title-with-spacing">Новосибирск</h1>
+            </div>
+            
+            <div class="districts-wrapper">
+                <h2 class="section-title" id="main-content">Районы города</h2>
+                <div class="districts-grid">
+                    <a href="{{ url_for('sch_nskob_nsk_cent') }}" class="district-btn" aria-label="Центральный район">
+                        <div class="district-icon">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="district-title">Центральный район</h3>
+                        <div class="district-subtitle">Лучшие школы центра</div>
+                    </a>
+
+                    <a href="#" class="district-btn" aria-label="Дзержинский район">
+                        <div class="district-icon">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="district-title">Дзержинский район</h3>
+                        <div class="district-subtitle">Школы Дзержинского</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-nav">
+        <button onclick="location.href='{{ url_for('sch_nskob') }}'" title="Назад" aria-label="Назад">
+            ←
+        </button>
+        <button onclick="location.href='{{ url_for('domoi') }}'" title="Главная" aria-label="Главная">
+            🏠
+        </button>
+    </div>
+
+    <script>
+        function updateNavigationPosition() {
+            const navPanel = document.getElementById('navigationPanel');
+            if (navPanel) navPanel.style.bottom = '20px';
+        }
+
+        function togglePanel() {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            const isActive = panel.classList.toggle('active');
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-expanded', isActive);
+        }
+
+        document.getElementById('togglePanel').addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePanel();
+        });
+
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('sidePanel');
+            const btn = document.getElementById('togglePanel');
+            if (!panel.contains(event.target) && !btn.contains(event.target) && panel.classList.contains('active')) {
+                togglePanel();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const panel = document.getElementById('sidePanel');
+                if (panel.classList.contains('active')) {
+                    togglePanel();
+                }
+            }
+        });
+
+        window.addEventListener('resize', updateNavigationPosition);
+        window.addEventListener('load', updateNavigationPosition);
+    </script>
+</body>
+</html>
